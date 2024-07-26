@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhgaf7tijd22o"]
+
+[ext_resource type="Script" path="res://scenes/L_block.gd" id="1_jx5ip"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uofjb"]
+
+[node name="L-Block" type="RigidBody2D"]
+mass = 4.0
+script = ExtResource("1_jx5ip")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(3, 2)
+polygon = PackedVector2Array(-10, 0, -10, 10, 10, 10, 10, -10, 3.33333, -10, 3.33333, 0)
+
+[node name="sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_uofjb")
+position = Vector2(1, -4)
+scale = Vector2(0.218, 0.208)

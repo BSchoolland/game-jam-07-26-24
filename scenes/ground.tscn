@@ -9,10 +9,10 @@ size = Vector2(1152, 50)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(576, 623)
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.52, 0.8)
 shape = SubResource("RectangleShape2D_tikfu")
 
 [node name="Ground" type="Sprite2D" parent="."]
 position = Vector2(578.5, 621.5)
-scale = Vector2(4.635, 0.215)
+scale = Vector2(3, 0.215)
 texture = ExtResource("1_xlgwt")

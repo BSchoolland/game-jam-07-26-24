@@ -1,16 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://dh3vvl25s73o4"]
+[gd_scene load_steps=2 format=3 uid="uid://dh3vvl25s73o4"]
 
 [ext_resource type="Texture2D" uid="uid://drx7ogld3rvkg" path="res://assets/testblock.png" id="1_dkb15"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_uidhy"]
 
 [node name="testblock" type="RigidBody2D"]
 gravity_scale = 0.1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_uidhy")
-
 [node name="Testblock" type="Sprite2D" parent="."]
-position = Vector2(7.6294e-07, -7.62939e-07)
+position = Vector2(1.3113e-06, 10)
+scale = Vector2(0.3, 0.1)
+texture = ExtResource("1_dkb15")
+
+[node name="Testblock2" type="Sprite2D" parent="."]
+position = Vector2(20, -10)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_dkb15")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(3, 2)
+polygon = PackedVector2Array(-10, 0, -10, 10, 10, 10, 10, -10, 3.33333, -10, 3.33333, 0)
