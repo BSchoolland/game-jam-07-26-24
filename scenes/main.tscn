@@ -1,9 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://82skf4qkta1s"]
+[gd_scene load_steps=4 format=3 uid="uid://82skf4qkta1s"]
 
 [ext_resource type="Texture2D" uid="uid://cqjoc25v032xy" path="res://assets/Space Background (2).png" id="1_m6rbh"]
+[ext_resource type="Script" path="res://scenes/main.gd" id="1_xqvwo"]
 [ext_resource type="PackedScene" uid="uid://vekbvyuwrmew" path="res://scenes/ground.tscn" id="2_fscvo"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Main" type="Node2D"]
+script = ExtResource("1_xqvwo")
 
 [node name="SpaceBackground(2)" type="Sprite2D" parent="."]
 position = Vector2(575.333, 323.5)
@@ -11,3 +13,8 @@ scale = Vector2(1.19444, 1.19444)
 texture = ExtResource("1_m6rbh")
 
 [node name="Ground" parent="." instance=ExtResource("2_fscvo")]
+
+[node name="SpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
