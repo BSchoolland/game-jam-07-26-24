@@ -3,7 +3,7 @@ extends RigidBody2D
 # Array of texture paths or preload the textures
 var sprite_textures = [
 	preload("res://assets/blocks/white.png"),
-	#preload("res://assets/blocks/green.png"),
+	preload("res://assets/blocks/green.png"),
 	preload("res://assets/blocks/blue.png"),
 	preload("res://assets/blocks/red.png")
 ]
