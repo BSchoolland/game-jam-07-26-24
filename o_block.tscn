@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bjte8lys21egj"]
+
+[ext_resource type="Script" path="res://scenes/L_block.gd" id="1_imdfw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hb0k7"]
+size = Vector2(40, 40)
+
+[node name="O-Block" type="RigidBody2D"]
+mass = 4.0
+script = ExtResource("1_imdfw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hb0k7")
+
+[node name="sprite" type="Sprite2D" parent="."]
+position = Vector2(2, -10)
+scale = Vector2(0.249, 0.249)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

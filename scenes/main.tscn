@@ -14,7 +14,20 @@ texture = ExtResource("2_bnrmq")
 
 [node name="Ground" parent="." instance=ExtResource("2_fscvo")]
 
-[node name="SpawnTimer" type="Timer" parent="."]
-autostart = true
+[node name="Score" type="Label" parent="."]
+offset_left = 11.0
+offset_top = 3.0
+offset_right = 352.0
+offset_bottom = 138.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Score: 0"
 
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[node name="Health" type="Label" parent="."]
+offset_left = 18.0
+offset_top = 57.0
+offset_right = 359.0
+offset_bottom = 192.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "Lives: 0"
