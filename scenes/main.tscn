@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://82skf4qkta1s"]
+[gd_scene load_steps=5 format=3 uid="uid://82skf4qkta1s"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_xqvwo"]
 [ext_resource type="Texture2D" uid="uid://b888lae3bsgkk" path="res://assets/background.png" id="2_bnrmq"]
 [ext_resource type="PackedScene" uid="uid://vekbvyuwrmew" path="res://scenes/ground.tscn" id="2_fscvo"]
+[ext_resource type="PackedScene" uid="uid://blkfnyiuuhbw8" path="res://scenes/start_button.tscn" id="4_dxli8"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_xqvwo")
@@ -31,3 +32,7 @@ offset_bottom = 192.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 text = "Lives: 0"
+
+[node name="start-button" parent="." instance=ExtResource("4_dxli8")]
+
+[connection signal="start" from="start-button" to="." method="_on_startbutton_start"]

@@ -21,11 +21,15 @@ var isBlockReady : bool
 const L_BLOCK_SCENE = preload("res://scenes/L_block.tscn")
 const O_BLOCK_SCENE = preload("res://o_block.tscn")
 const T_BLOCK_SCENE = preload("res://t_block.tscn")
+const CIRCLE_BLOCK_SCENE = preload("res://scenes/circle_block.tscn")
+const TRI_BLOCK_SCENE = preload("res://scenes/tri_block.tscn")
 
 const BLOCK_ARRAY = [
 	L_BLOCK_SCENE,
 	O_BLOCK_SCENE,
-	T_BLOCK_SCENE
+	T_BLOCK_SCENE,
+	#CIRCLE_BLOCK_SCENE,
+	TRI_BLOCK_SCENE
 ]
 
 func instantiate_random_block() -> RigidBody2D:
@@ -39,7 +43,7 @@ func instantiate_random_block() -> RigidBody2D:
 
 func _ready():
 	isGameOver = false
-	isGameRunning = true
+	isGameRunning = false
 	health = 3
 	score = 0
 	orientation = 0
@@ -133,3 +137,10 @@ func _input(event):
 			orientation = 0
 		print(orientation)
 
+func _on_startbutton_start():
+	if (isGameRunning):
+		return
+	print('ok')
+	isGameRunning = true
+	spawn_block()
+	$"start-button".hide()
