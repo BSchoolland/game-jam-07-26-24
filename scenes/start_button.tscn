@@ -1,20 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://blkfnyiuuhbw8"]
+[gd_scene load_steps=2 format=3 uid="uid://blkfnyiuuhbw8"]
 
 [ext_resource type="Script" path="res://scenes/start_button.gd" id="1_dn2c4"]
-[ext_resource type="Texture2D" uid="uid://nos62sgygwoi" path="res://assets/start.png" id="1_rt34h"]
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_axk67"]
-texture = ExtResource("1_rt34h")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bl5jg"]
-texture = ExtResource("1_rt34h")
-expand_margin_left = 25.0
-expand_margin_top = 25.0
-expand_margin_right = 25.0
-expand_margin_bottom = 25.0
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r8go8"]
-texture = ExtResource("1_rt34h")
 
 [node name="start-button" type="CanvasLayer"]
 script = ExtResource("1_dn2c4")
@@ -24,8 +10,5 @@ offset_left = 326.0
 offset_top = 263.0
 offset_right = 739.0
 offset_bottom = 397.0
-theme_override_styles/normal = SubResource("StyleBoxTexture_axk67")
-theme_override_styles/hover = SubResource("StyleBoxTexture_bl5jg")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_r8go8")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

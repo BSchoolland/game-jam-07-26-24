@@ -8,7 +8,8 @@ var sprite_textures = [
 	#preload("res://assets/blocks/white.png"),
 	preload("res://assets/blocks/L/green.png"),
 	preload("res://assets/blocks/L/blue.png"),
-	preload("res://assets/blocks/L/red.png")
+	preload("res://assets/blocks/L/red.png"),
+	preload("res://assets/blocks/L/yellow.png")
 ]
 
 func _ready():
@@ -17,13 +18,26 @@ func _ready():
 	contact_monitor = true
 	randomize() # Ensure randomness
 	var random_index = randi() % sprite_textures.size()
-	var sprite_node = $sprite
-	sprite_node.texture = sprite_textures[random_index]
 	var scale_factor = 0.8
 	# make the collision shape slightly smaller while dropping to make error go in player's favor
 	var collision_shape = $CollisionPolygon2D
 	collision_shape.scale.x *= scale_factor
 	collision_shape.scale.y *= scale_factor
+
+func set_color(new_color):
+	var sprite_node = $sprite
+	
+	match new_color:
+		'green':
+			sprite_node.texture = sprite_textures[0]
+		'blue':
+			sprite_node.texture = sprite_textures[1]
+		'red':
+			sprite_node.texture = sprite_textures[2]
+		'yellow':
+			sprite_node.texture = sprite_textures[3]
+		_:
+			print("Invalid color")
 
 func _on_body_entered(body):
 	hit.emit()

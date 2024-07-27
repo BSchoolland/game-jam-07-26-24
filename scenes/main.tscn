@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://82skf4qkta1s"]
+[gd_scene load_steps=6 format=3 uid="uid://82skf4qkta1s"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_xqvwo"]
 [ext_resource type="Texture2D" uid="uid://b888lae3bsgkk" path="res://assets/background.png" id="2_bnrmq"]
 [ext_resource type="PackedScene" uid="uid://vekbvyuwrmew" path="res://scenes/ground.tscn" id="2_fscvo"]
 [ext_resource type="PackedScene" uid="uid://blkfnyiuuhbw8" path="res://scenes/start_button.tscn" id="4_dxli8"]
+[ext_resource type="PackedScene" uid="uid://cg7e8hqnhox8o" path="res://scenes/picker.tscn" id="5_a4bo1"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_xqvwo")
@@ -15,24 +16,26 @@ texture = ExtResource("2_bnrmq")
 
 [node name="Ground" parent="." instance=ExtResource("2_fscvo")]
 
+[node name="start-button" parent="." instance=ExtResource("4_dxli8")]
+
+[node name="picker" parent="." instance=ExtResource("5_a4bo1")]
+
 [node name="Score" type="Label" parent="."]
-offset_left = 11.0
-offset_top = 3.0
-offset_right = 352.0
-offset_bottom = 138.0
+offset_left = 2.0
+offset_top = -13.0
+offset_right = 343.0
+offset_bottom = 122.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 text = "Score: 0"
 
 [node name="Health" type="Label" parent="."]
-offset_left = 18.0
-offset_top = 57.0
-offset_right = 359.0
-offset_bottom = 192.0
+offset_left = 967.0
+offset_top = -3.0
+offset_right = 1308.0
+offset_bottom = 132.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 text = "Lives: 0"
-
-[node name="start-button" parent="." instance=ExtResource("4_dxli8")]
 
 [connection signal="start" from="start-button" to="." method="_on_startbutton_start"]
