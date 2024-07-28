@@ -43,8 +43,12 @@ func random_card():
 		block = O_BLOCK_SCENE
 	elif (type == "L"):
 		block = L_BLOCK_SCENE
-	else:
+	elif (type == "Tri"):
 		block = TRI_BLOCK_SCENE
+	elif (type == "T"):
+		block = T_BLOCK_SCENE
+	else:
+		print('ERROR: BLOCK UNDEFINED')
 	var block_instance = block.instantiate()
 	block_instance.set_color(color)
 	block_instance.position = Vector2(0, -100)

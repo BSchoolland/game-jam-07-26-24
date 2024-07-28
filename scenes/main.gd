@@ -32,6 +32,8 @@ const BLOCK_ARRAY = [
 	TRI_BLOCK_SCENE
 ]
 
+var forshadow_blocks : Array
+
 var pattern : Array
 
 var patternIndex : int
@@ -99,18 +101,81 @@ func add_block(type, color):
 			"color": color
 		}
 	)
-	
 	hide_picker()
 	patternIndex = 0
+	update_forshadow(true)
 	spawn_block()
 
-func spawn_block():
+func clear_forshadow_blocks():
+	$forshadow.hide()
+	$forshadow2.hide()
+	$forshadow3.hide()
+	$forshadow4.hide()
+	$forshadow5.hide()
+	for block in forshadow_blocks:
+		if (str(block) != "<Freed Object>"):
+			block.queue_free()
+	forshadow_blocks = []
+		
+
+func update_forshadow(skipWait = false):
+	# clear the first block and remove it from the array
+	if len(forshadow_blocks) > 0:
+		forshadow_blocks[0].queue_free()
+		if (!skipWait):
+			await get_tree().create_timer(1).timeout
+	clear_forshadow_blocks()
+	# use the current index and the pattern array to show upcomming blocks
+	var i = patternIndex
+	if (i >= len(pattern)):
+		return
+	# for now lets just do the next one
+	var block
+	block = pattern[i].block.instantiate()
+	forshadow_blocks.append(block)
+	block.set_color(pattern[i].color)
+	$forshadow.load_block(block)
+	$forshadow/Forshadow.hide()
+	i += 1
+	if (i >= len(pattern)):
+		return
+	block = pattern[i].block.instantiate()
+	forshadow_blocks.append(block)
+	block.set_color(pattern[i].color)
+	$forshadow2.load_block(block)
+	i += 1
+	if (i >= len(pattern)):
+		return
+	block = pattern[i].block.instantiate()
+	forshadow_blocks.append(block)
+	block.set_color(pattern[i].color)
+	$forshadow3.load_block(block)
+	i += 1
+	if (i >= len(pattern)):
+		return
+	block = pattern[i].block.instantiate()
+	forshadow_blocks.append(block)
+	block.set_color(pattern[i].color)
+	$forshadow4.load_block(block)
+	i += 1
+	if (i >= len(pattern)):
+		return
+	block = pattern[i].block.instantiate()
+	forshadow_blocks.append(block)
+	block.set_color(pattern[i].color)
+	$forshadow5.load_block(block)
+	
+
+func spawn_block(skipWait = false):
 	if (!isGameRunning):
 		return
 	orientation = 0
 	# Instance the scene
 	if (patternIndex >= len(pattern)):
-		await get_tree().create_timer(1.0).timeout
+		if (!skipWait):
+			await get_tree().create_timer(1.0).timeout
+		patternIndex = 0
+		update_forshadow(true)
 		show_picker()
 		return
 	var falling_block = instantiate_pattern_block()
@@ -118,12 +183,15 @@ func spawn_block():
 	# Set a random position within the screen bounds
 	var screen_size = get_viewport().size
 	falling_block.position = Vector2(
-		(screen_size.x * 0.4 + randi() % int(screen_size.x * 0.2)), 
-		0  # Start from the top of the screen
+		(screen_size.x * 0.5 ), 
+		30  # Start from the top of the screen
 	)
 	activeBlock = falling_block
 	activeBlock.hit.connect(handleActiveHit)
 	activeBlock.fall.connect(handleFall)
+	blocks.append(activeBlock)
+	# update foreshadow
+	update_forshadow()
 	# Add the instance to the scene tree
 	call_deferred("add_child", falling_block)
 
@@ -133,11 +201,16 @@ func handleFall():
 	score -= 1
 	print('ouch sound here')
 	health -= 1
-	if (health <= 0):
-		print('game over')
-		isGameRunning = false
-		isGameOver = true
-		
+	if (health <= 0 and !isGameOver):
+		game_over()
+
+func game_over():
+	activeBlock = null
+	print('game over')
+	isGameRunning = false
+	isGameOver = true
+	$gameOverScreen.show()
+	hide_picker()
 
 func handleActiveHit():
 	if (!isGameRunning):
@@ -198,19 +271,28 @@ func _input(event):
 func start_game():
 	if (isGameRunning):
 		return
-	print('ok')
+	for block in blocks:
+		if (str(block) != "<Freed Object>"):
+			block.queue_free()
+	blocks = []
+	$gameOverScreen.hide()
+	isGameOver = false
 	isGameRunning = true
 
 	$"start-button".hide()
+	hide_picker()
+	health = 3
+	score = 0
+	orientation = 0
+	patternIndex = 0
 	# start the pattern with a blue square
-	pattern = [
-		{
-			"block": O_BLOCK_SCENE,
-			"color": 'blue'
-		 }
-	]
+	pattern = []
+	update_forshadow(true)
 	
-	spawn_block()
+	spawn_block(true)
 
 func _on_startbutton_start():
+	start_game()
+
+func _on_game_over_screen_play_again():
 	start_game()

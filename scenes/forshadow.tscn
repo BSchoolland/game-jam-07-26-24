@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://jwtnnhx374g2"]
+
+[ext_resource type="Script" path="res://scenes/forshadow.gd" id="1_l147y"]
+[ext_resource type="Texture2D" uid="uid://8yy8u7j7frgr" path="res://assets/arrow.png" id="2_sggqg"]
+
+[node name="forshadow" type="CanvasLayer"]
+script = ExtResource("1_l147y")
+
+[node name="Forshadow" type="Sprite2D" parent="."]
+position = Vector2(82, 13)
+texture = ExtResource("2_sggqg")

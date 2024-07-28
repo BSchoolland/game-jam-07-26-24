@@ -9,23 +9,24 @@
 script = ExtResource("1_yjv8x")
 
 [node name="Choose-title" type="Sprite2D" parent="."]
-position = Vector2(615, 566)
+position = Vector2(621, 618)
 scale = Vector2(2.306, 2.306)
 texture = ExtResource("1_ewfgr")
 
 [node name="Reroll" type="Sprite2D" parent="."]
-position = Vector2(920, 512)
+visible = false
+position = Vector2(934, 538)
 scale = Vector2(2.903, 2.903)
 texture = ExtResource("3_4ivee")
 
 [node name="Card" parent="." instance=ExtResource("4_vlkkc")]
-offset = Vector2(580, 350)
-transform = Transform2D(1, 0, 0, 1, 580, 350)
+offset = Vector2(580, 400)
+transform = Transform2D(1, 0, 0, 1, 580, 400)
 
 [node name="Card3" parent="." instance=ExtResource("4_vlkkc")]
-offset = Vector2(860, 350)
-transform = Transform2D(1, 0, 0, 1, 860, 350)
+offset = Vector2(860, 400)
+transform = Transform2D(1, 0, 0, 1, 860, 400)
 
 [node name="Card2" parent="." instance=ExtResource("4_vlkkc")]
-offset = Vector2(300, 350)
-transform = Transform2D(1, 0, 0, 1, 300, 350)
+offset = Vector2(300, 400)
+transform = Transform2D(1, 0, 0, 1, 300, 400)
