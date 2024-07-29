@@ -81,7 +81,9 @@ func _ready():
 	set_process_input(true) 
 	pattern = []
 	patternIndex = 0
-	start_game()
+	$gameOverScreen.hide()
+	update_forshadow(true)
+	#start_game()
 	
 	
 func hide_picker():
@@ -283,6 +285,7 @@ func handleFall():
 		return
 	print('ouch sound here')
 	health -= 1
+	$damage.play()
 	update_hearts()
 	if (health <= 0 and !isGameOver):
 		game_over()
@@ -304,6 +307,11 @@ func update_hearts():
 	if health > 4:
 		$Heart5.texture = HEART_SPRITE
 func game_over():
+	for block in blocks:
+		if (str(block) != "<Freed Object>"):
+			randomize()
+			block.linear_velocity = Vector2(randf() * 1500 - 750, randf() * 1500 - 750)
+	$loose.play()
 	activeBlock = null
 	print('game over')
 	isGameRunning = false
@@ -315,6 +323,7 @@ func score_points(amount, body):
 	if (!isGameRunning):
 		return
 	score += amount
+	$Points.play()
 	var floating_text_instance = FLOATING_TEXT_SCENE.instantiate()
 	
 	var label = floating_text_instance.get_node("Label")
@@ -383,6 +392,7 @@ func rotate_block_to_angle(block: RigidBody2D, target_orientation: float):
 func _input(event):
 	if event is InputEventKey and event.pressed and (event.keycode == KEY_R or event.keycode == KEY_UP):
 		orientation += 1
+		$Rotate.play()
 		if orientation > 3:
 			orientation = 0
 

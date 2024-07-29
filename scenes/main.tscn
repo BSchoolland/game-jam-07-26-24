@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://82skf4qkta1s"]
+[gd_scene load_steps=14 format=3 uid="uid://82skf4qkta1s"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_xqvwo"]
 [ext_resource type="Texture2D" uid="uid://b888lae3bsgkk" path="res://assets/background.png" id="2_bnrmq"]
@@ -8,6 +8,11 @@
 [ext_resource type="PackedScene" uid="uid://bm4p5hh61688o" path="res://scenes/game_over_screen.tscn" id="6_sh621"]
 [ext_resource type="PackedScene" uid="uid://jwtnnhx374g2" path="res://scenes/forshadow.tscn" id="7_k0qwl"]
 [ext_resource type="Texture2D" uid="uid://tjm31pa7jmle" path="res://assets/heart.png" id="8_r42e1"]
+[ext_resource type="AudioStream" uid="uid://dirj8u2jqp3gn" path="res://sounds/sketchy-towers.mp3" id="9_wu4u6"]
+[ext_resource type="AudioStream" uid="uid://bgw6vgeyb8geo" path="res://sounds/rotate (1).mp3" id="10_nrej4"]
+[ext_resource type="AudioStream" uid="uid://do8oidjnk2pjl" path="res://sounds/put_item-83043.mp3" id="11_ku4gr"]
+[ext_resource type="AudioStream" uid="uid://hq08w1d47r5y" path="res://sounds/large-crash-with-cataiff-14490.mp3" id="12_q6n4x"]
+[ext_resource type="AudioStream" uid="uid://c3oa4t8o1mnws" path="res://sounds/crash-6711.mp3" id="13_anuwb"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_xqvwo")
@@ -87,6 +92,31 @@ texture = ExtResource("8_r42e1")
 position = Vector2(894, 5)
 scale = Vector2(0.525, 0.525)
 texture = ExtResource("8_r42e1")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_wu4u6")
+volume_db = -22.691
+autoplay = true
+
+[node name="Rotate" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_nrej4")
+volume_db = -5.186
+mix_target = 1
+
+[node name="Points" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_ku4gr")
+volume_db = -10.0
+mix_target = 1
+
+[node name="loose" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_q6n4x")
+volume_db = -15.0
+mix_target = 1
+
+[node name="damage" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_anuwb")
+volume_db = -26.0
+mix_target = 1
 
 [connection signal="start" from="start-button" to="." method="_on_startbutton_start"]
 [connection signal="playAgain" from="gameOverScreen" to="." method="_on_game_over_screen_play_again"]
