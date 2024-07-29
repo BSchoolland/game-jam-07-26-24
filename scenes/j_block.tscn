@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba0gws84c07xq"]
+
+[ext_resource type="Script" path="res://J-Block.gd" id="1_wf2qa"]
+[ext_resource type="Texture2D" uid="uid://df41f6mqjh7os" path="res://assets/blocks/L/blue.png" id="2_lj5pj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_12r7a"]
+
+[node name="J-Block" type="RigidBody2D"]
+mass = 4.0
+script = ExtResource("1_wf2qa")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(-3, 2)
+polygon = PackedVector2Array(-10, 0, -10, 10, 10, 10, 10, -10, 3.33333, -10, 3.33333, 0)
+
+[node name="sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_12r7a")
+position = Vector2(-1.45139, -2.5)
+scale = Vector2(-0.207306, 0.202)
+texture = ExtResource("2_lj5pj")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

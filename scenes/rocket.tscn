@@ -1,0 +1,87 @@
+[gd_scene load_steps=12 format=3 uid="uid://cp4jmqfd64ju8"]
+
+[ext_resource type="Texture2D" uid="uid://def4xyye51etx" path="res://assets/rocket/rocket2.png" id="1_0w7r0"]
+[ext_resource type="Script" path="res://scenes/rocket.gd" id="1_gm22i"]
+[ext_resource type="Texture2D" uid="uid://ccqix2edjclej" path="res://assets/rocket/rocket3.png" id="2_adwpj"]
+[ext_resource type="Texture2D" uid="uid://tyhkp6ff1hr3" path="res://assets/rocket/rocket.png" id="3_4ske0"]
+[ext_resource type="Texture2D" uid="uid://dcnuwdr8h5d8r" path="res://assets/explosion/pixil-frame-0 (26).png" id="5_pscw1"]
+[ext_resource type="Texture2D" uid="uid://2dtafr65afx3" path="res://assets/explosion/pixil-frame-0 (27).png" id="6_0jnor"]
+[ext_resource type="Texture2D" uid="uid://b41032e8vk4qu" path="res://assets/explosion/pixil-frame-0 (28).png" id="7_hktkc"]
+[ext_resource type="Texture2D" uid="uid://codit8jnlbtwo" path="res://assets/explosion/pixil-frame-0 (29).png" id="8_0si7o"]
+[ext_resource type="Texture2D" uid="uid://ceotkt6oqmpkj" path="res://assets/explosion/pixil-frame-0 (30).png" id="9_14ayl"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5tjr8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_0w7r0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_adwpj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_4ske0")
+}],
+"loop": true,
+"name": &"Flying",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m3ulb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_pscw1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0jnor")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_hktkc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_0si7o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_14ayl")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Rocket" type="RigidBody2D"]
+position = Vector2(0, 1)
+collision_layer = 3
+collision_mask = 3
+gravity_scale = 0.0
+lock_rotation = true
+script = ExtResource("1_gm22i")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-10, -8)
+rotation = 3.14159
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_5tjr8")
+animation = &"Flying"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = 3.14159
+scale = Vector2(0.5, 0.5)
+polygon = PackedVector2Array(49, 0, 30, 8, -25, 8, -32, 22, -40, 22, -41, -20, -32, -18, -26, -7, 32, -8)
+
+[node name="explosion" type="AnimatedSprite2D" parent="."]
+position = Vector2(7, -9)
+scale = Vector2(0.611, 0.611)
+sprite_frames = SubResource("SpriteFrames_m3ulb")
+frame = 6
+frame_progress = 1.0
+speed_scale = 2.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

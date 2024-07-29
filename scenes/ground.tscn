@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://vekbvyuwrmew"]
+[gd_scene load_steps=4 format=3 uid="uid://vekbvyuwrmew"]
 
+[ext_resource type="Script" path="res://scenes/ground.gd" id="1_ahe1l"]
 [ext_resource type="Texture2D" uid="uid://cuif8kn3p57br" path="res://assets/ground2.png" id="1_ndvct"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tikfu"]
 size = Vector2(346.154, 50)
 
 [node name="Ground" type="StaticBody2D"]
+script = ExtResource("1_ahe1l")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(566, 628)

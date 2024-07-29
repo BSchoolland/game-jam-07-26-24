@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://82skf4qkta1s"]
+[gd_scene load_steps=9 format=3 uid="uid://82skf4qkta1s"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_xqvwo"]
 [ext_resource type="Texture2D" uid="uid://b888lae3bsgkk" path="res://assets/background.png" id="2_bnrmq"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cg7e8hqnhox8o" path="res://scenes/picker.tscn" id="5_a4bo1"]
 [ext_resource type="PackedScene" uid="uid://bm4p5hh61688o" path="res://scenes/game_over_screen.tscn" id="6_sh621"]
 [ext_resource type="PackedScene" uid="uid://jwtnnhx374g2" path="res://scenes/forshadow.tscn" id="7_k0qwl"]
+[ext_resource type="Texture2D" uid="uid://tjm31pa7jmle" path="res://assets/heart.png" id="8_r42e1"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_xqvwo")
@@ -23,19 +24,19 @@ texture = ExtResource("2_bnrmq")
 [node name="picker" parent="." instance=ExtResource("5_a4bo1")]
 
 [node name="Score" type="Label" parent="."]
-offset_left = 932.0
-offset_top = 31.0
-offset_right = 1273.0
-offset_bottom = 166.0
+offset_left = 5.0
+offset_top = -12.0
+offset_right = 346.0
+offset_bottom = 123.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 text = "Score: 0"
 
 [node name="Health" type="Label" parent="."]
-offset_left = 943.0
-offset_top = -14.0
-offset_right = 1284.0
-offset_bottom = 121.0
+offset_left = -247.0
+offset_top = 81.0
+offset_right = 94.0
+offset_bottom = 216.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 text = "Lives: 0"
@@ -61,6 +62,31 @@ transform = Transform2D(1, 0, 0, 1, 200, 30)
 [node name="forshadow5" parent="." instance=ExtResource("7_k0qwl")]
 offset = Vector2(75, 30)
 transform = Transform2D(1, 0, 0, 1, 75, 30)
+
+[node name="Heart" type="Sprite2D" parent="."]
+position = Vector2(1116, 3)
+scale = Vector2(0.525, 0.525)
+texture = ExtResource("8_r42e1")
+
+[node name="Heart2" type="Sprite2D" parent="."]
+position = Vector2(1058, 4)
+scale = Vector2(0.525, 0.525)
+texture = ExtResource("8_r42e1")
+
+[node name="Heart3" type="Sprite2D" parent="."]
+position = Vector2(1004, 4)
+scale = Vector2(0.525, 0.525)
+texture = ExtResource("8_r42e1")
+
+[node name="Heart4" type="Sprite2D" parent="."]
+position = Vector2(949, 5)
+scale = Vector2(0.525, 0.525)
+texture = ExtResource("8_r42e1")
+
+[node name="Heart5" type="Sprite2D" parent="."]
+position = Vector2(894, 5)
+scale = Vector2(0.525, 0.525)
+texture = ExtResource("8_r42e1")
 
 [connection signal="start" from="start-button" to="." method="_on_startbutton_start"]
 [connection signal="playAgain" from="gameOverScreen" to="." method="_on_game_over_screen_play_again"]

@@ -7,7 +7,11 @@ const types : Array = [
 	'O',
 	'L',
 	'T',
-	'Tri'
+	'J',
+	"Z",
+	"S",
+	"I"
+	#'Tri'
 ]
 
 const colors : Array = [
@@ -19,12 +23,16 @@ const colors : Array = [
 
 # Path to the scene to be instantiated
 const L_BLOCK_SCENE = preload("res://scenes/L_block.tscn")
+const J_BLOCK_SCENE = preload("res://scenes/j_block.tscn")
 const O_BLOCK_SCENE = preload("res://o_block.tscn")
 const T_BLOCK_SCENE = preload("res://t_block.tscn")
+const Z_BLOCK_SCENE = preload("res://scenes/z_block.tscn")
+const S_BLOCK_SCENE = preload("res://scenes/s_block.tscn")
+const I_BLOCK_SCENE = preload("res://scenes/i_block.tscn")
 const CIRCLE_BLOCK_SCENE = preload("res://scenes/circle_block.tscn")
 const TRI_BLOCK_SCENE = preload("res://scenes/tri_block.tscn")
 
-func random_card():
+func random_card(first = true):
 	if (display_block):
 		display_block.queue_free()
 	# Seed the random number generator to ensure randomness
@@ -43,10 +51,18 @@ func random_card():
 		block = O_BLOCK_SCENE
 	elif (type == "L"):
 		block = L_BLOCK_SCENE
+	elif (type == "J"):
+		block = J_BLOCK_SCENE
 	elif (type == "Tri"):
 		block = TRI_BLOCK_SCENE
 	elif (type == "T"):
 		block = T_BLOCK_SCENE
+	elif (type == "Z"):
+		block = Z_BLOCK_SCENE
+	elif (type == "S"):
+		block = S_BLOCK_SCENE
+	elif (type == "I"):
+		block = I_BLOCK_SCENE
 	else:
 		print('ERROR: BLOCK UNDEFINED')
 	var block_instance = block.instantiate()
@@ -56,6 +72,10 @@ func random_card():
 	freeze_rigidbody(block_instance)
 	display_block = block_instance
 	call_deferred("add_child", block_instance)
+	if (first):
+		await get_tree().create_timer(0.25).timeout
+		pick.emit(type, color)
+		random_card(false)
 # signal for the card being chosen
 
 func freeze_rigidbody(rigidbody: RigidBody2D):
