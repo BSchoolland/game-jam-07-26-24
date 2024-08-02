@@ -115,7 +115,7 @@ func show_picker():
 
 func add_block(type, color):
 	cardCount += 1
-	print(type, color)
+
 	var block
 	if (type == 'O'):
 		block = O_BLOCK_SCENE
@@ -283,7 +283,7 @@ func spawn_block(skipWait = false):
 func handleFall():
 	if (!isGameRunning):
 		return
-	print('ouch sound here')
+
 	health -= 1
 	$damage.play()
 	update_hearts()
@@ -313,7 +313,7 @@ func game_over():
 			block.linear_velocity = Vector2(randf() * 1500 - 750, randf() * 1500 - 750)
 	$loose.play()
 	activeBlock = null
-	print('game over')
+
 	isGameRunning = false
 	isGameOver = true
 	$gameOverScreen.show()
