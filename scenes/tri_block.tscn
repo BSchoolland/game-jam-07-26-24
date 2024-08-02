@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://oj4apff8gl3t"]
+
+[ext_resource type="Script" path="res://Tri-Block.gd" id="1_86grk"]
+[ext_resource type="Texture2D" uid="uid://dnd4js7vyr3id" path="res://assets/blocks/Tri/blue.png" id="2_jy6ji"]
+
+[node name="Tri-Block" type="RigidBody2D"]
+mass = 4.0
+script = ExtResource("1_86grk")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, 21, -20, 21, 0, -19, 20, 21)
+
+[node name="sprite" type="Sprite2D" parent="."]
+position = Vector2(18, -3)
+scale = Vector2(0.504, 0.504)
+texture = ExtResource("2_jy6ji")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://cg7e8hqnhox8o"]
+
+[ext_resource type="Texture2D" uid="uid://cmofpa16gerf5" path="res://assets/choose-title.png" id="1_ewfgr"]
+[ext_resource type="Script" path="res://scenes/picker.gd" id="1_yjv8x"]
+[ext_resource type="Texture2D" uid="uid://ci3xqoqbqjius" path="res://assets/reroll.png" id="3_4ivee"]
+[ext_resource type="PackedScene" uid="uid://1xn47s02c25c" path="res://scenes/card.tscn" id="4_vlkkc"]
+
+[node name="picker" type="CanvasLayer"]
+script = ExtResource("1_yjv8x")
+
+[node name="Choose-title" type="Sprite2D" parent="."]
+position = Vector2(621, 618)
+scale = Vector2(2.306, 2.306)
+texture = ExtResource("1_ewfgr")
+
+[node name="Reroll" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(934, 538)
+scale = Vector2(2.903, 2.903)
+texture = ExtResource("3_4ivee")
+
+[node name="Card" parent="." instance=ExtResource("4_vlkkc")]
+offset = Vector2(580, 400)
+transform = Transform2D(1, 0, 0, 1, 580, 400)
+
+[node name="Card3" parent="." instance=ExtResource("4_vlkkc")]
+offset = Vector2(860, 400)
+transform = Transform2D(1, 0, 0, 1, 860, 400)
+
+[node name="Card2" parent="." instance=ExtResource("4_vlkkc")]
+offset = Vector2(300, 400)
+transform = Transform2D(1, 0, 0, 1, 300, 400)

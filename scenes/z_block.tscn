@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://cedpld1yicwty"]
+
+[ext_resource type="Script" path="res://Z-Block.gd" id="1_3cqih"]
+[ext_resource type="Texture2D" uid="uid://8ib57ra10ysw" path="res://assets/blocks/Z/blue.png" id="2_nxx8h"]
+
+[node name="Z-Block" type="RigidBody2D"]
+mass = 4.0
+script = ExtResource("1_3cqih")
+
+[node name="sprite" type="Sprite2D" parent="."]
+position = Vector2(15.75, 1)
+scale = Vector2(0.253, 0.25)
+texture = ExtResource("2_nxx8h")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-29, 1, -8, 1, -7.63636, 21, 31, 21, 31, 1, 11, 1, 11, -19, -9, -19, -29, -19)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

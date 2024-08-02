@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bll7h5uxfgky0"]
+
+[node name="floatingText" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = -29.0
+offset_top = -36.0
+offset_right = 25.0
+offset_bottom = 31.0
+theme_override_colors/font_color = Color(1.14311e-07, 0.291647, 0.108604, 1)
+theme_override_font_sizes/font_size = 48
+text = "+1"

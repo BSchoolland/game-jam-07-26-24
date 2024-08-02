@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://bm4p5hh61688o"]
+
+[ext_resource type="Script" path="res://CanvasLayer.gd" id="1_2g8nv"]
+[ext_resource type="Texture2D" uid="uid://d2mo7y0s3ov5a" path="res://assets/restart.png" id="2_lxhb0"]
+
+[node name="gameOverScreen" type="CanvasLayer"]
+script = ExtResource("1_2g8nv")
+
+[node name="Restart" type="Sprite2D" parent="."]
+position = Vector2(650, 297)
+scale = Vector2(1.352, 1.352)
+texture = ExtResource("2_lxhb0")
+
+[node name="Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = 500.0
+offset_top = 310.0
+offset_right = 674.0
+offset_bottom = 372.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://1xn47s02c25c"]
+
+[ext_resource type="Script" path="res://Card.gd" id="1_r0vq8"]
+[ext_resource type="Texture2D" uid="uid://c3c3e1dshanfp" path="res://assets/Cards/common.png" id="2_51nm2"]
+
+[node name="Card" type="CanvasLayer"]
+script = ExtResource("1_r0vq8")
+
+[node name="sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -9.53674e-07)
+scale = Vector2(0.637, 0.637)
+texture = ExtResource("2_51nm2")
+
+[node name="Button" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = -105.0
+offset_top = -141.0
+offset_right = 102.0
+offset_bottom = 146.0
+mouse_default_cursor_shape = 2
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

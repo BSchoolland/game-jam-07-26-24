@@ -12,10 +12,10 @@ signal score
 # Array of texture paths or preload the textures
 var sprite_textures = [
 	#preload("res://assets/blocks/white.png"),
-	preload("res://assets/blocks/O/green.png"),
-	preload("res://assets/blocks/O/blue.png"),
-	preload("res://assets/blocks/O/red.png"),
-	preload("res://assets/blocks/O/yellow.png")
+	preload("res://assets/blocks/T/green.png"),
+	preload("res://assets/blocks/T/blue.png"),
+	preload("res://assets/blocks/T/red.png"),
+	preload("res://assets/blocks/T/yellow.png")
 ]
 
 func damage(amount):
@@ -36,7 +36,7 @@ func _ready():
 	var random_index = randi() % sprite_textures.size()
 	var scale_factor = 0.8
 	# make the collision shape slightly smaller while dropping to make error go in player's favor
-	var collision_shape = $CollisionShape2D
+	var collision_shape = $CollisionPolygon2D
 	collision_shape.scale.x *= scale_factor
 	collision_shape.scale.y *= scale_factor
 
@@ -77,7 +77,7 @@ func _on_body_entered(body):
 	hasHit = true
 	var scale_factor = 1.2
 	# make the collision shape slightly smaller while dropping to make error go in player's favor
-	var collision_shape = $CollisionShape2D
+	var collision_shape = $CollisionPolygon2D
 	collision_shape.scale.x *= scale_factor
 	collision_shape.scale.y *= scale_factor
 	await get_tree().create_timer(0.15).timeout

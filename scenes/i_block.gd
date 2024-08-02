@@ -12,10 +12,10 @@ signal score
 # Array of texture paths or preload the textures
 var sprite_textures = [
 	#preload("res://assets/blocks/white.png"),
-	preload("res://assets/blocks/O/green.png"),
-	preload("res://assets/blocks/O/blue.png"),
-	preload("res://assets/blocks/O/red.png"),
-	preload("res://assets/blocks/O/yellow.png")
+	preload("res://assets/blocks/I/green.png"),
+	preload("res://assets/blocks/I/blue.png"),
+	preload("res://assets/blocks/I/red.png"),
+	preload("res://assets/blocks/I/yellow.png")
 ]
 
 func damage(amount):
@@ -26,6 +26,7 @@ func damage(amount):
 		queue_free()
 
 func _ready():
+	print('I spawned')
 	hasFallen = false
 	matchingConnected = [self]
 	health = maxHealth

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpuwyllm8mjbf"]
+
+[ext_resource type="Script" path="res://scenes/Flak.gd" id="1_xpelq"]
+[ext_resource type="Texture2D" uid="uid://u23yfjon0trc" path="res://assets/blocks/Tri/red.png" id="2_1di2h"]
+
+[node name="Flak" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_xpelq")
+
+[node name="Red" type="Sprite2D" parent="."]
+position = Vector2(5.99998, -3)
+scale = Vector2(0.149, 0.149)
+texture = ExtResource("2_1di2h")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-6, 5, 1, -7, 6, 4)
