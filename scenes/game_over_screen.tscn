@@ -1,21 +1,56 @@
-[gd_scene load_steps=3 format=3 uid="uid://bm4p5hh61688o"]
+[gd_scene load_steps=5 format=3 uid="uid://bm4p5hh61688o"]
 
 [ext_resource type="Script" path="res://CanvasLayer.gd" id="1_2g8nv"]
-[ext_resource type="Texture2D" uid="uid://d2mo7y0s3ov5a" path="res://assets/restart.png" id="2_lxhb0"]
+[ext_resource type="Texture2D" uid="uid://dudgut7p8m4bb" path="res://assets/retry.png" id="3_ajjo7"]
+[ext_resource type="FontFile" uid="uid://bls4re53ydow7" path="res://assets/Minecraft.ttf" id="3_fdlwr"]
+[ext_resource type="Texture2D" uid="uid://bucxe5apvue31" path="res://assets/leave.png" id="4_ufcqt"]
 
 [node name="gameOverScreen" type="CanvasLayer"]
 script = ExtResource("1_2g8nv")
 
-[node name="Restart" type="Sprite2D" parent="."]
-position = Vector2(650, 297)
-scale = Vector2(1.352, 1.352)
-texture = ExtResource("2_lxhb0")
-
 [node name="Button" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0)
-offset_left = 500.0
-offset_top = 310.0
-offset_right = 674.0
-offset_bottom = 372.0
+offset_left = 466.0
+offset_top = 327.0
+offset_right = 562.0
+offset_bottom = 424.0
+
+[node name="Button2" type="Button" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = 625.0
+offset_top = 332.0
+offset_right = 715.0
+offset_bottom = 423.0
+
+[node name="Score" type="Label" parent="."]
+offset_left = 387.0
+offset_top = 176.0
+offset_right = 795.0
+offset_bottom = 321.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 32
+text = "Score: 0"
+horizontal_alignment = 1
+
+[node name="Better than" type="Label" parent="."]
+offset_left = 324.0
+offset_top = 238.0
+offset_right = 856.0
+offset_bottom = 383.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 32
+text = "You did better than: 0% of players"
+horizontal_alignment = 1
+
+[node name="Retry" type="Sprite2D" parent="."]
+position = Vector2(509, 355)
+texture = ExtResource("3_ajjo7")
+
+[node name="Leave" type="Sprite2D" parent="."]
+position = Vector2(686, 419)
+texture = ExtResource("4_ufcqt")
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]

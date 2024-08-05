@@ -152,7 +152,7 @@ func _on_body_exited(body):
 		if body.color == color:
 			unmatch_body(body)
 			body.unmatch_body(self)
-			
+
 
 func _process(delta):
 	# check if the block is below the screen

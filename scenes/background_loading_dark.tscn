@@ -1,0 +1,68 @@
+[gd_scene load_steps=7 format=3 uid="uid://78rxhbbcljhm"]
+
+[ext_resource type="Script" path="res://scenes/background_loading_dark.gd" id="1_48qkh"]
+[ext_resource type="Texture2D" uid="uid://bmitxcn5qk55v" path="res://assets/pixil-frame-0 (9).png" id="1_35832"]
+[ext_resource type="Texture2D" uid="uid://dcet26cgmuule" path="res://assets/level1.png" id="2_2fnba"]
+[ext_resource type="Texture2D" uid="uid://dpkt4ofkk3map" path="res://assets/level2.png" id="3_257oo"]
+[ext_resource type="Texture2D" uid="uid://60r2grm38km0" path="res://assets/level3.png" id="4_b26p0"]
+[ext_resource type="Texture2D" uid="uid://bss0fnj1nb0m6" path="res://assets/pixil-frame-0 (10).png" id="5_mocbw"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+script = ExtResource("1_48qkh")
+
+[node name="select1" type="Button" parent="."]
+offset_left = 67.0
+offset_top = 195.0
+offset_right = 364.0
+offset_bottom = 473.0
+mouse_default_cursor_shape = 2
+
+[node name="select2" type="Button" parent="."]
+offset_left = 427.0
+offset_top = 193.0
+offset_right = 724.0
+offset_bottom = 471.0
+mouse_default_cursor_shape = 2
+
+[node name="select3" type="Button" parent="."]
+offset_left = 783.0
+offset_top = 186.0
+offset_right = 1080.0
+offset_bottom = 464.0
+mouse_default_cursor_shape = 2
+
+[node name="Pixil-frame-0(9)" type="Sprite2D" parent="."]
+position = Vector2(577, 323.5)
+scale = Vector2(2.368, 1.378)
+texture = ExtResource("1_35832")
+
+[node name="Level1" type="Sprite2D" parent="."]
+position = Vector2(205, 256)
+texture = ExtResource("2_2fnba")
+
+[node name="Level2" type="Sprite2D" parent="."]
+position = Vector2(561, 254)
+texture = ExtResource("3_257oo")
+
+[node name="Level3" type="Sprite2D" parent="."]
+position = Vector2(919, 246)
+texture = ExtResource("4_b26p0")
+
+[node name="Pixil-frame-0(10)" type="Sprite2D" parent="."]
+position = Vector2(219, 368)
+scale = Vector2(0.294, 0.294)
+texture = ExtResource("5_mocbw")
+
+[node name="Pixil-frame-0(10)2" type="Sprite2D" parent="."]
+position = Vector2(584, 359)
+scale = Vector2(0.294, 0.294)
+texture = ExtResource("5_mocbw")
+
+[node name="Pixil-frame-0(10)3" type="Sprite2D" parent="."]
+position = Vector2(951, 347)
+scale = Vector2(0.294, 0.294)
+texture = ExtResource("5_mocbw")
+
+[connection signal="pressed" from="select1" to="." method="_on_select_1_pressed"]
+[connection signal="pressed" from="select2" to="." method="_on_select_2_pressed"]
+[connection signal="pressed" from="select3" to="." method="_on_select_3_pressed"]

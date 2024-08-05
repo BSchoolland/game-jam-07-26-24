@@ -16,6 +16,12 @@ var isRightHeld : bool
 var isLeftHeld : bool
 var screen_size
 
+var ground1
+var ground2
+var ground3
+
+var currentLevel
+
 var isBlockReady : bool
 
 var rocketCount : int # the number of rockets to spawn per round
@@ -54,6 +60,10 @@ var pattern : Array
 
 var patternIndex : int
 
+var percentBetterThan
+
+
+
 func instantiate_random_block() -> RigidBody2D:
 	# Get a random index from the BLOCK_ARRAY
 	var random_index = randi() % BLOCK_ARRAY.size()
@@ -69,7 +79,25 @@ func instantiate_pattern_block() -> RigidBody2D:
 	block_instance.set_color(block_info.color)
 	return block_instance
 
+# Function to remove a scene
+func remove_scene(scene):
+	if scene.get_parent() != null:
+		scene.get_parent().remove_child(scene)
+
+# Function to add a scene back to the parent
+func add_scene(scene):
+	remove_scene(ground1)
+	remove_scene(ground2)
+	remove_scene(ground3)
+	add_child(scene)
+
 func _ready():
+	ground1 = $Ground
+	ground2 = $Ground2
+	ground3 = $Ground3
+	add_scene(ground1)
+	remove_scene(ground1)
+	currentLevel = 0
 	screen_size = get_viewport().size
 	hide_picker()
 	isGameOver = false
@@ -84,7 +112,44 @@ func _ready():
 	$gameOverScreen.hide()
 	update_forshadow(true)
 	#start_game()
-	
+	submitHighscore(500, 3)
+
+func submitHighscore(score, level):
+	# Create an HTTP request node and connect its completion signal.
+	print("sending req")
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	http_request.request_completed.connect(self._http_request_completed)
+
+	# Perform a GET request. The URL below returns JSON as of writing.
+	#var error = http_request.request("localhost:3000/api/highscore")
+	#if error != OK:
+		#push_error("An error occurred in the HTTP request.")
+
+	# Perform a POST request. The URL below returns JSON as of writing.
+	var headers = ["Content-Type: application/json"]
+	var initials = "Unnamed Player"
+	if (score == 0):
+		percentBetterThan = 0
+		return
+	if (Crazygamessdkwrapper.SDK):
+		initials = Crazygamessdkwrapper.SDK
+	var body = JSON.new().stringify({"initials": "Godot", "score": score, "level": level})
+	print(body)
+	var error = http_request.request("http://localhost:3000/api/highscore", headers, HTTPClient.METHOD_POST, body)
+	if error != OK:
+		push_error("An error occurred in the HTTP request.")
+
+func getHighscores(level, limit = 10):
+	pass
+# Called when the HTTP request is completed.
+func _http_request_completed(result, response_code, headers, body):
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	var response = json.get_data()
+	print(response)
+	print(response.percentBetterThan)
+	percentBetterThan = response.percentBetterThan
 	
 func hide_picker():
 	$picker.hide()
@@ -306,6 +371,9 @@ func update_hearts():
 		$Heart4.texture = HEART_SPRITE
 	if health > 4:
 		$Heart5.texture = HEART_SPRITE
+		
+		
+
 func game_over():
 	for block in blocks:
 		if (str(block) != "<Freed Object>"):
@@ -316,8 +384,21 @@ func game_over():
 
 	isGameRunning = false
 	isGameOver = true
-	$gameOverScreen.show()
 	hide_picker()
+	submitHighscore(score, currentLevel)
+	await get_tree().create_timer(2).timeout
+	# create as midgame ad
+	if (Crazygamessdkwrapper.SDK):
+		Crazygamessdkwrapper.SDK.ad.requestAd("midgame", Crazygamessdkwrapper.adCallbacks)
+		Crazygamessdkwrapper.SDK.game.gameplayStop()
+		$AudioStreamPlayer.stop()
+		await get_tree().create_timer(3).timeout
+
+	$gameOverScreen.show()
+	$gameOverScreen.displayScore(score, percentBetterThan)
+
+
+
 
 func score_points(amount, body):
 	if (!isGameRunning):
@@ -396,10 +477,11 @@ func _input(event):
 		if orientation > 3:
 			orientation = 0
 
-
 func start_game():
 	if (isGameRunning):
 		return
+	if (Crazygamessdkwrapper.SDK):
+		Crazygamessdkwrapper.SDK.game.gameplayStart()
 	for block in blocks:
 		if (str(block) != "<Freed Object>"):
 			block.queue_free()
@@ -422,8 +504,40 @@ func start_game():
 	
 	spawn_block(true)
 
+func show_selector():
+	$CanvasLayer.show()
+
 func _on_startbutton_start():
 	start_game()
 
 func _on_game_over_screen_play_again():
+	$AudioStreamPlayer.play()
 	start_game()
+
+
+func _on_canvas_layer_select_1() -> void:
+	add_scene(ground1)
+	$CanvasLayer.hide()
+	start_game()
+	currentLevel = 1
+
+func _on_canvas_layer_select_2() -> void:
+	add_scene(ground3)
+	$CanvasLayer.hide()
+	start_game()
+	currentLevel = 2
+
+
+func _on_canvas_layer_select_3() -> void:
+	add_scene(ground2)
+	$CanvasLayer.hide()
+	start_game()
+	currentLevel = 3
+
+
+
+func _on_game_over_screen_go_back() -> void:
+	$AudioStreamPlayer.play()
+	add_scene(ground1)
+	remove_scene(ground1)
+	show_selector()

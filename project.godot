@@ -12,12 +12,27 @@ config_version=5
 
 config/name="Game-jam-07-26-24"
 run/main_scene="res://scenes/main.tscn"
-config/features=PackedStringArray("4.2", "Mobile")
+config/features=PackedStringArray("4.3", "Mobile")
 config/icon="res://icon.png"
+
+[autoload]
+
+Crazygamessdkwrapper="*res://crazygamessdkwrapper.gd"
 
 [display]
 
 window/stretch/mode="viewport"
+
+[editor]
+
+import/use_multiple_threads=false
+
+[navigation]
+
+avoidance/thread_model/avoidance_use_multiple_threads=false
+avoidance/thread_model/avoidance_use_high_priority_threads=false
+baking/thread_model/baking_use_multiple_threads=false
+baking/thread_model/baking_use_high_priority_threads=false
 
 [physics]
 
@@ -25,4 +40,11 @@ window/stretch/mode="viewport"
 
 [rendering]
 
-renderer/rendering_method="mobile"
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
+
+[threading]
+
+worker_pool/max_threads=1
+worker_pool/use_system_threads_for_low_priority_tasks=false
