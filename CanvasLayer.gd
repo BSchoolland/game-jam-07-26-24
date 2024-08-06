@@ -14,7 +14,24 @@ func _process(delta):
 
 func displayScore(score, percentBetterThan):
 	$Score.text = "Score: " + str(score)
-	$"Better than".text = "You did better than: " + str(percentBetterThan) + "% of players"
+	if (percentBetterThan == null):
+		$"Better than".hide()
+	else:
+		$"Better than".show()
+	$"Better than".text = "You did better than \n" + str(percentBetterThan) + "% of players"
+	
+func showLeaderBoardDay(list):
+	var dailyString = ''
+	for leader in list:
+		dailyString += leader.initials + ": " + str(leader.score) + "\n"
+	$Daily.text = dailyString
+	
+func showLeaderBoardAll(list):
+	var dailyString = ''
+	for leader in list:
+		dailyString += leader.initials + ": " + str(leader.score) + "\n"
+	$AllTime.text = dailyString
+	
 
 func _on_button_pressed():
 	playAgain.emit()

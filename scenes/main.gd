@@ -15,6 +15,7 @@ const MOVE_SPEED : int = 150
 var isRightHeld : bool
 var isLeftHeld : bool
 var screen_size
+var adCountdown
 
 var ground1
 var ground2
@@ -62,7 +63,7 @@ var patternIndex : int
 
 var percentBetterThan
 
-
+const api_url : String = "https://leaderboardapi.duckdns.org/leader-api"
 
 func instantiate_random_block() -> RigidBody2D:
 	# Get a random index from the BLOCK_ARRAY
@@ -92,6 +93,8 @@ func add_scene(scene):
 	add_child(scene)
 
 func _ready():
+	adCountdown = 3
+	$mobileControls.hide()
 	ground1 = $Ground
 	ground2 = $Ground2
 	ground3 = $Ground3
@@ -111,8 +114,6 @@ func _ready():
 	patternIndex = 0
 	$gameOverScreen.hide()
 	update_forshadow(true)
-	#start_game()
-	submitHighscore(500, 3)
 
 func submitHighscore(score, level):
 	# Create an HTTP request node and connect its completion signal.
@@ -121,35 +122,59 @@ func submitHighscore(score, level):
 	add_child(http_request)
 	http_request.request_completed.connect(self._http_request_completed)
 
-	# Perform a GET request. The URL below returns JSON as of writing.
-	#var error = http_request.request("localhost:3000/api/highscore")
-	#if error != OK:
-		#push_error("An error occurred in the HTTP request.")
 
 	# Perform a POST request. The URL below returns JSON as of writing.
 	var headers = ["Content-Type: application/json"]
-	var initials = "Unnamed Player"
 	if (score == 0):
 		percentBetterThan = 0
 		return
-	if (Crazygamessdkwrapper.SDK):
-		initials = Crazygamessdkwrapper.SDK
-	var body = JSON.new().stringify({"initials": "Godot", "score": score, "level": level})
+
+	var initials = Crazygamessdkwrapper.username
+	if !(Crazygamessdkwrapper.isLoggedIn):
+		$gameOverScreen/signInPls.show()
+		$gameOverScreen/signInPls.text = """
+		You are not logged into a 
+CrazyGames account and your
+leaderboard name will be """ + initials + """.
+Log in to have your username 
+displayed with your leaderboard score!
+		"""
+	else:
+		$gameOverScreen/signInPls.hide()
+
+	var body = JSON.new().stringify({"initials": initials, "score": score, "level": level})
 	print(body)
-	var error = http_request.request("http://localhost:3000/api/highscore", headers, HTTPClient.METHOD_POST, body)
+	var error = http_request.request(api_url+"/api/highscore", headers, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		push_error("An error occurred in the HTTP request.")
 
 func getHighscores(level, limit = 10):
-	pass
+	print("sending req")
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	http_request.request_completed.connect(self._http_request_completed_list_day)
+	http_request.request(api_url+"/api/highscores?limit="+str(limit)+"&level="+str(level)+"&timeframe=day", [], HTTPClient.METHOD_GET, "")
+	var http_request2 = HTTPRequest.new()
+	add_child(http_request2)
+	http_request2.request_completed.connect(self._http_request_completed_list_all)
+	http_request2.request(api_url+"/api/highscores?limit="+str(limit)+"&level="+str(level)+"&timeframe=all", [], HTTPClient.METHOD_GET, "")
 # Called when the HTTP request is completed.
 func _http_request_completed(result, response_code, headers, body):
 	var json = JSON.new()
 	json.parse(body.get_string_from_utf8())
 	var response = json.get_data()
-	print(response)
-	print(response.percentBetterThan)
 	percentBetterThan = response.percentBetterThan
+
+func _http_request_completed_list_day(result, response_code, headers, body):
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	var response = json.get_data()
+	$gameOverScreen.showLeaderBoardDay(response)
+func _http_request_completed_list_all(result, response_code, headers, body):
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	var response = json.get_data()
+	$gameOverScreen.showLeaderBoardAll(response)
 	
 func hide_picker():
 	$picker.hide()
@@ -330,11 +355,8 @@ func spawn_block(skipWait = false):
 		return
 	var falling_block = instantiate_pattern_block()
 	patternIndex += 1
-	# Set a random position within the screen bounds
-	falling_block.position = Vector2(
-		(screen_size.x * 0.5 ), 
-		30  # Start from the top of the screen
-	)
+	# Set to the same position as the forshadow's block
+	falling_block.position = $forshadow.myposition
 	activeBlock = falling_block
 	activeBlock.hit.connect(handleActiveHit)
 	activeBlock.fall.connect(handleFall)
@@ -386,18 +408,21 @@ func game_over():
 	isGameOver = true
 	hide_picker()
 	submitHighscore(score, currentLevel)
+	$mobileControls.hide()
 	await get_tree().create_timer(2).timeout
+	getHighscores(currentLevel, 10)
 	# create as midgame ad
 	if (Crazygamessdkwrapper.SDK):
-		Crazygamessdkwrapper.SDK.ad.requestAd("midgame", Crazygamessdkwrapper.adCallbacks)
+		adCountdown -= 1
 		Crazygamessdkwrapper.SDK.game.gameplayStop()
-		$AudioStreamPlayer.stop()
-		await get_tree().create_timer(3).timeout
+		if (adCountdown <= 0):
+			Crazygamessdkwrapper.SDK.ad.requestAd("midgame", Crazygamessdkwrapper.adCallbacks)
+			$AudioStreamPlayer.stop()
+			await get_tree().create_timer(3).timeout
+			adCountdown = 3
 
 	$gameOverScreen.show()
 	$gameOverScreen.displayScore(score, percentBetterThan)
-
-
 
 
 func score_points(amount, body):
@@ -439,19 +464,24 @@ func _physics_process(delta):
 		return
 	if activeBlock:
 		var velocity = activeBlock.linear_velocity
-		if Input.is_key_pressed(KEY_RIGHT):
+		if Input.is_action_pressed('right'):
 			# move the activeBlock somewhat to the right
 			velocity.x = MOVE_SPEED
-		elif Input.is_key_pressed(KEY_LEFT):
+		elif Input.is_action_pressed('left'):
 			# move to the left
 			velocity.x = -MOVE_SPEED
 		else:
 			velocity.x = 0
-		if Input.is_key_pressed(KEY_DOWN):
+		if Input.is_action_pressed('down'):
 			if activeBlock.linear_velocity.y > DROP_SPEED:
 				velocity.y = DROP_SPEED
 		elif activeBlock.linear_velocity.y > FALL_SPEED:
 			velocity.y = FALL_SPEED
+		if Input.is_action_just_pressed('rotate'):
+			orientation += 1
+			$Rotate.play()
+			if orientation > 3:
+				orientation = 0
 		activeBlock.linear_velocity = velocity
 		
 		# try to orient the block based on the orientation variable
@@ -470,16 +500,11 @@ func rotate_block_to_angle(block: RigidBody2D, target_orientation: float):
 	# Set the angular velocity based on the difference
 	block.angular_velocity = difference * ROTATE_SPEED
 
-func _input(event):
-	if event is InputEventKey and event.pressed and (event.keycode == KEY_R or event.keycode == KEY_UP):
-		orientation += 1
-		$Rotate.play()
-		if orientation > 3:
-			orientation = 0
 
 func start_game():
 	if (isGameRunning):
 		return
+	$mobileControls.show()
 	if (Crazygamessdkwrapper.SDK):
 		Crazygamessdkwrapper.SDK.game.gameplayStart()
 	for block in blocks:
@@ -538,6 +563,7 @@ func _on_canvas_layer_select_3() -> void:
 
 func _on_game_over_screen_go_back() -> void:
 	$AudioStreamPlayer.play()
+	$gameOverScreen.hide()
 	add_scene(ground1)
 	remove_scene(ground1)
 	show_selector()

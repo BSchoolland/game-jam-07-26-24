@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bm4p5hh61688o"]
+[gd_scene load_steps=6 format=3 uid="uid://bm4p5hh61688o"]
 
 [ext_resource type="Script" path="res://CanvasLayer.gd" id="1_2g8nv"]
+[ext_resource type="Texture2D" uid="uid://b888lae3bsgkk" path="res://assets/background.png" id="2_ym54e"]
 [ext_resource type="Texture2D" uid="uid://dudgut7p8m4bb" path="res://assets/retry.png" id="3_ajjo7"]
 [ext_resource type="FontFile" uid="uid://bls4re53ydow7" path="res://assets/Minecraft.ttf" id="3_fdlwr"]
 [ext_resource type="Texture2D" uid="uid://bucxe5apvue31" path="res://assets/leave.png" id="4_ufcqt"]
@@ -8,49 +9,173 @@
 [node name="gameOverScreen" type="CanvasLayer"]
 script = ExtResource("1_2g8nv")
 
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(576.778, 325)
+scale = Vector2(1.2037, 1.2037)
+texture = ExtResource("2_ym54e")
+
 [node name="Button" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0)
-offset_left = 466.0
-offset_top = 327.0
-offset_right = 562.0
-offset_bottom = 424.0
+offset_left = 423.0
+offset_top = 333.0
+offset_right = 519.0
+offset_bottom = 430.0
 
 [node name="Button2" type="Button" parent="."]
 modulate = Color(1, 1, 1, 0)
-offset_left = 625.0
-offset_top = 332.0
-offset_right = 715.0
-offset_bottom = 423.0
+offset_left = 582.0
+offset_top = 338.0
+offset_right = 672.0
+offset_bottom = 429.0
+
+[node name="Retry" type="Sprite2D" parent="."]
+position = Vector2(483, 355)
+texture = ExtResource("3_ajjo7")
+
+[node name="Leave" type="Sprite2D" parent="."]
+position = Vector2(660, 419)
+texture = ExtResource("4_ufcqt")
 
 [node name="Score" type="Label" parent="."]
-offset_left = 387.0
-offset_top = 176.0
-offset_right = 795.0
-offset_bottom = 321.0
+offset_left = 343.0
+offset_top = 119.0
+offset_right = 751.0
+offset_bottom = 264.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_fdlwr")
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 46
 text = "Score: 0"
 horizontal_alignment = 1
 
 [node name="Better than" type="Label" parent="."]
-offset_left = 324.0
-offset_top = 238.0
-offset_right = 856.0
-offset_bottom = 383.0
+offset_left = 297.0
+offset_top = 200.0
+offset_right = 829.0
+offset_bottom = 345.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_fdlwr")
 theme_override_font_sizes/font_size = 32
-text = "You did better than: 0% of players"
+text = "You did better than: 
+0% of players"
 horizontal_alignment = 1
 
-[node name="Retry" type="Sprite2D" parent="."]
-position = Vector2(509, 355)
-texture = ExtResource("3_ajjo7")
+[node name="leaderTitle" type="Label" parent="."]
+offset_left = 737.0
+offset_top = 107.0
+offset_right = 1157.0
+offset_bottom = 252.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 32
+text = "ALL TIME
+__________________"
+horizontal_alignment = 1
 
-[node name="Leave" type="Sprite2D" parent="."]
-position = Vector2(686, 419)
-texture = ExtResource("4_ufcqt")
+[node name="Score2" type="Label" parent="."]
+offset_left = 359.0
+offset_top = 29.0
+offset_right = 767.0
+offset_bottom = 174.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 64
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="leaderTitle3" type="Label" parent="."]
+offset_left = -9.0
+offset_top = 105.0
+offset_right = 411.0
+offset_bottom = 250.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 32
+text = "TODAY
+__________________"
+horizontal_alignment = 1
+
+[node name="AllTime" type="Label" parent="."]
+offset_left = 794.0
+offset_top = 176.0
+offset_right = 1202.0
+offset_bottom = 523.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 24
+text = "There is a problem with
+the server and scores
+cannot be loaded.  
+Sorry!"
+horizontal_alignment = 1
+
+[node name="Daily" type="Label" parent="."]
+offset_left = 41.0
+offset_top = 182.0
+offset_right = 449.0
+offset_bottom = 529.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 24
+text = "There is a problem with
+the server and scores
+cannot be loaded.  
+Sorry!"
+horizontal_alignment = 1
+
+[node name="Daily2" type="Label" parent="."]
+offset_left = -28.0
+offset_top = 183.0
+offset_right = 200.0
+offset_bottom = 530.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 24
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+10"
+horizontal_alignment = 1
+
+[node name="Daily3" type="Label" parent="."]
+offset_left = 719.0
+offset_top = 175.0
+offset_right = 947.0
+offset_bottom = 522.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 24
+text = "1
+2
+3
+4
+5
+6
+7
+8
+9
+10"
+horizontal_alignment = 1
+
+[node name="signInPls" type="Label" parent="."]
+offset_left = 364.0
+offset_top = 445.0
+offset_right = 772.0
+offset_bottom = 590.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_fdlwr")
+theme_override_font_sizes/font_size = 20
+text = "You are not logged into a 
+CrazyGames account and 
+your name will be \"Guest\".
+Log in to have your username 
+displayed with your leaderboard score!"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]

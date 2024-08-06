@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://78rxhbbcljhm"]
+[gd_scene load_steps=9 format=3 uid="uid://78rxhbbcljhm"]
 
 [ext_resource type="Script" path="res://scenes/background_loading_dark.gd" id="1_48qkh"]
 [ext_resource type="Texture2D" uid="uid://bmitxcn5qk55v" path="res://assets/pixil-frame-0 (9).png" id="1_35832"]
 [ext_resource type="Texture2D" uid="uid://dcet26cgmuule" path="res://assets/level1.png" id="2_2fnba"]
+[ext_resource type="Texture2D" uid="uid://b888lae3bsgkk" path="res://assets/background.png" id="2_2wf45"]
 [ext_resource type="Texture2D" uid="uid://dpkt4ofkk3map" path="res://assets/level2.png" id="3_257oo"]
 [ext_resource type="Texture2D" uid="uid://60r2grm38km0" path="res://assets/level3.png" id="4_b26p0"]
 [ext_resource type="Texture2D" uid="uid://bss0fnj1nb0m6" path="res://assets/pixil-frame-0 (10).png" id="5_mocbw"]
+[ext_resource type="FontFile" uid="uid://bls4re53ydow7" path="res://assets/Minecraft.ttf" id="8_b31a0"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_48qkh")
@@ -31,7 +33,14 @@ offset_right = 1080.0
 offset_bottom = 464.0
 mouse_default_cursor_shape = 2
 
+[node name="Background" type="Sprite2D" parent="."]
+modulate = Color(0.223103, 0.223103, 0.223103, 1)
+position = Vector2(576, 324)
+scale = Vector2(1.2, 1.2)
+texture = ExtResource("2_2wf45")
+
 [node name="Pixil-frame-0(9)" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(577, 323.5)
 scale = Vector2(2.368, 1.378)
 texture = ExtResource("1_35832")
@@ -63,6 +72,173 @@ position = Vector2(951, 347)
 scale = Vector2(0.294, 0.294)
 texture = ExtResource("5_mocbw")
 
+[node name="Score2" type="Label" parent="."]
+offset_left = 1.0
+offset_top = 29.0
+offset_right = 1151.0
+offset_bottom = 174.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 64
+text = "Sketchy Towers"
+horizontal_alignment = 1
+
+[node name="Score3" type="Label" parent="."]
+offset_left = 1043.0
+offset_top = 27.0
+offset_right = 1132.0
+offset_bottom = 92.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 64
+text = "?"
+horizontal_alignment = 1
+
+[node name="help" type="Button" parent="."]
+offset_left = 1044.0
+offset_top = 11.0
+offset_right = 1127.0
+offset_bottom = 92.0
+
+[node name="Help" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(576.5, 323.5)
+scale = Vector2(1.19479, 1.19815)
+texture = ExtResource("2_2wf45")
+
+[node name="Score14" type="Label" parent="Help"]
+offset_left = -479.163
+offset_top = -27.1252
+offset_right = 477.837
+offset_bottom = 37.8748
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 24
+text = "On mobile just press the buttons on the screen!"
+horizontal_alignment = 1
+
+[node name="Score8" type="Label" parent="Help"]
+offset_left = -476.652
+offset_top = -148.145
+offset_right = 475.348
+offset_bottom = -83.1453
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 32
+text = "Controls:"
+horizontal_alignment = 1
+
+[node name="Score7" type="Label" parent="Help"]
+offset_left = -479.163
+offset_top = -63.8485
+offset_right = 477.837
+offset_bottom = 1.15147
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 24
+text = "Up arrow key rotates the block, and down will make it fall faster"
+horizontal_alignment = 1
+
+[node name="Score5" type="Label" parent="Help"]
+offset_left = -476.0
+offset_top = -107.0
+offset_right = 476.0
+offset_bottom = -42.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 24
+text = "Use the left and right arrow keys to move the block left and right"
+horizontal_alignment = 1
+
+[node name="Score4" type="Label" parent="Help"]
+offset_left = -183.714
+offset_top = -249.969
+offset_right = 188.286
+offset_bottom = -184.969
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 48
+text = "How to play:"
+horizontal_alignment = 1
+
+[node name="Exit" type="Button" parent="Help"]
+offset_left = 390.0
+offset_top = -257.0
+offset_right = 454.0
+offset_bottom = -196.0
+
+[node name="Score3" type="Label" parent="Help"]
+offset_left = 380.401
+offset_top = -245.796
+offset_right = 469.401
+offset_bottom = -180.796
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 52
+text = "X"
+horizontal_alignment = 1
+
+[node name="Score9" type="Label" parent="Help"]
+offset_left = -475.815
+offset_top = 18.779
+offset_right = 476.185
+offset_bottom = 83.779
+theme_override_colors/font_color = Color(0, 0.262745, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 32
+text = "Goal:"
+horizontal_alignment = 1
+
+[node name="Score10" type="Label" parent="Help"]
+offset_left = -482.511
+offset_top = 179.861
+offset_right = 474.489
+offset_bottom = 244.861
+theme_override_colors/font_color = Color(0, 0.262745, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 24
+text = "Earn your way to the top of the leaderboards"
+horizontal_alignment = 1
+
+[node name="Score11" type="Label" parent="Help"]
+offset_left = -476.652
+offset_top = 141.468
+offset_right = 481.348
+offset_bottom = 206.468
+theme_override_colors/font_color = Color(0, 0.262745, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 24
+text = "Match blocks of the same color for a score bonus"
+horizontal_alignment = 1
+
+[node name="Score12" type="Label" parent="Help"]
+offset_left = -475.163
+offset_top = 59.9243
+offset_right = 476.837
+offset_bottom = 124.924
+theme_override_colors/font_color = Color(0, 0.262745, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 24
+text = "Earn points by adding blocks to your tower without it falling over"
+horizontal_alignment = 1
+
+[node name="Score13" type="Label" parent="Help"]
+offset_left = -465.772
+offset_top = 101.407
+offset_right = 486.228
+offset_bottom = 166.406
+theme_override_colors/font_color = Color(0, 0.262745, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 24
+text = "Once 5 blocks fall off it's game over!"
+horizontal_alignment = 1
+
 [connection signal="pressed" from="select1" to="." method="_on_select_1_pressed"]
 [connection signal="pressed" from="select2" to="." method="_on_select_2_pressed"]
 [connection signal="pressed" from="select3" to="." method="_on_select_3_pressed"]
+[connection signal="pressed" from="help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="Help/Exit" to="." method="_on_exit_pressed"]

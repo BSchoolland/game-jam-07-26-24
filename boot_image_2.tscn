@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://d40ms2tapv4m"]
+
+[ext_resource type="Texture2D" uid="uid://decnjg6yhroxd" path="res://bootImage2.png" id="1_2035g"]
+[ext_resource type="FontFile" uid="uid://bls4re53ydow7" path="res://assets/Minecraft.ttf" id="2_x76f1"]
+
+[node name="BootImage2" type="Sprite2D"]
+position = Vector2(575.591, 325)
+scale = Vector2(1.09556, 1.09556)
+texture = ExtResource("1_2035g")
+
+[node name="Score2" type="Label" parent="."]
+offset_left = -197.904
+offset_top = -61.6842
+offset_right = 210.096
+offset_bottom = 83.3158
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_constants/outline_size = 5
+theme_override_constants/shadow_outline_size = 3
+theme_override_fonts/font = ExtResource("2_x76f1")
+theme_override_font_sizes/font_size = 64
+text = "Sketchy
+Towers"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true

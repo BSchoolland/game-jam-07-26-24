@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://82skf4qkta1s"]
+[gd_scene load_steps=19 format=3 uid="uid://82skf4qkta1s"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_xqvwo"]
 [ext_resource type="Texture2D" uid="uid://b888lae3bsgkk" path="res://assets/background.png" id="2_bnrmq"]
@@ -16,6 +16,7 @@
 [ext_resource type="AudioStream" uid="uid://c3oa4t8o1mnws" path="res://sounds/crash-6711.mp3" id="13_anuwb"]
 [ext_resource type="PackedScene" uid="uid://fib6uhefkepk" path="res://scenes/ground_2.tscn" id="14_vcut4"]
 [ext_resource type="PackedScene" uid="uid://cb1eyhl2n7qb6" path="res://scenes/ground_3.tscn" id="15_gv8vb"]
+[ext_resource type="PackedScene" uid="uid://ha4fdrtwjumu" path="res://scenes/mobile_controls.tscn" id="18_580d1"]
 [ext_resource type="PackedScene" uid="uid://78rxhbbcljhm" path="res://scenes/background_loading_dark.tscn" id="19_4xe8t"]
 
 [node name="Main" type="Node2D"]
@@ -25,8 +26,6 @@ script = ExtResource("1_xqvwo")
 position = Vector2(576.778, 325)
 scale = Vector2(1.2037, 1.2037)
 texture = ExtResource("2_bnrmq")
-
-[node name="Ground" parent="." instance=ExtResource("2_fscvo")]
 
 [node name="picker" parent="." instance=ExtResource("5_a4bo1")]
 
@@ -48,8 +47,6 @@ offset_bottom = 216.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 48
 text = "Lives: 0"
-
-[node name="gameOverScreen" parent="." instance=ExtResource("6_sh621")]
 
 [node name="forshadow" parent="." instance=ExtResource("7_k0qwl")]
 offset = Vector2(575, 30)
@@ -121,17 +118,23 @@ stream = ExtResource("13_anuwb")
 volume_db = -5.0
 mix_target = 1
 
+[node name="start-button" parent="." instance=ExtResource("4_dxli8")]
+
+[node name="gameOverScreen" parent="." instance=ExtResource("6_sh621")]
+
+[node name="CanvasLayer" parent="." instance=ExtResource("19_4xe8t")]
+
+[node name="Ground" parent="." instance=ExtResource("2_fscvo")]
+
 [node name="Ground2" parent="." instance=ExtResource("14_vcut4")]
 
 [node name="Ground3" parent="." instance=ExtResource("15_gv8vb")]
 
-[node name="start-button" parent="." instance=ExtResource("4_dxli8")]
+[node name="mobileControls" parent="." instance=ExtResource("18_580d1")]
 
-[node name="CanvasLayer" parent="." instance=ExtResource("19_4xe8t")]
-
+[connection signal="start" from="start-button" to="." method="_on_startbutton_start"]
 [connection signal="goBack" from="gameOverScreen" to="." method="_on_game_over_screen_go_back"]
 [connection signal="playAgain" from="gameOverScreen" to="." method="_on_game_over_screen_play_again"]
-[connection signal="start" from="start-button" to="." method="_on_startbutton_start"]
 [connection signal="select1" from="CanvasLayer" to="." method="_on_canvas_layer_select_1"]
 [connection signal="select2" from="CanvasLayer" to="." method="_on_canvas_layer_select_2"]
 [connection signal="select3" from="CanvasLayer" to="." method="_on_canvas_layer_select_3"]
