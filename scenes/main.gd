@@ -15,6 +15,13 @@ const MOVE_SPEED : int = 150
 var isRightHeld : bool
 var isLeftHeld : bool
 var screen_size
+var adCountdown
+
+var ground1
+var ground2
+var ground3
+
+var currentLevel
 
 var isBlockReady : bool
 
@@ -54,6 +61,10 @@ var pattern : Array
 
 var patternIndex : int
 
+var percentBetterThan
+
+const api_url : String = "https://leaderboardapi.duckdns.org/leader-api"
+
 func instantiate_random_block() -> RigidBody2D:
 	# Get a random index from the BLOCK_ARRAY
 	var random_index = randi() % BLOCK_ARRAY.size()
@@ -69,7 +80,27 @@ func instantiate_pattern_block() -> RigidBody2D:
 	block_instance.set_color(block_info.color)
 	return block_instance
 
+# Function to remove a scene
+func remove_scene(scene):
+	if scene.get_parent() != null:
+		scene.get_parent().remove_child(scene)
+
+# Function to add a scene back to the parent
+func add_scene(scene):
+	remove_scene(ground1)
+	remove_scene(ground2)
+	remove_scene(ground3)
+	add_child(scene)
+
 func _ready():
+	adCountdown = 3
+	$mobileControls.hide()
+	ground1 = $Ground
+	ground2 = $Ground2
+	ground3 = $Ground3
+	add_scene(ground1)
+	remove_scene(ground1)
+	currentLevel = 0
 	screen_size = get_viewport().size
 	hide_picker()
 	isGameOver = false
@@ -83,8 +114,67 @@ func _ready():
 	patternIndex = 0
 	$gameOverScreen.hide()
 	update_forshadow(true)
-	#start_game()
-	
+
+func submitHighscore(score, level):
+	# Create an HTTP request node and connect its completion signal.
+	print("sending req")
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	http_request.request_completed.connect(self._http_request_completed)
+
+
+	# Perform a POST request. The URL below returns JSON as of writing.
+	var headers = ["Content-Type: application/json"]
+	if (score == 0):
+		percentBetterThan = 0
+		return
+
+	var initials = Crazygamessdkwrapper.username
+	if !(Crazygamessdkwrapper.isLoggedIn):
+		$gameOverScreen/signInPls.show()
+		$gameOverScreen/signInPls.text = """
+		You are not logged into a 
+CrazyGames account and your
+leaderboard name will be """ + initials + """.
+Log in to have your username 
+displayed with your leaderboard score!
+		"""
+	else:
+		$gameOverScreen/signInPls.hide()
+
+	var body = JSON.new().stringify({"initials": initials, "score": score, "level": level})
+	print(body)
+	var error = http_request.request(api_url+"/api/highscore", headers, HTTPClient.METHOD_POST, body)
+	if error != OK:
+		push_error("An error occurred in the HTTP request.")
+
+func getHighscores(level, limit = 10):
+	print("sending req")
+	var http_request = HTTPRequest.new()
+	add_child(http_request)
+	http_request.request_completed.connect(self._http_request_completed_list_day)
+	http_request.request(api_url+"/api/highscores?limit="+str(limit)+"&level="+str(level)+"&timeframe=day", [], HTTPClient.METHOD_GET, "")
+	var http_request2 = HTTPRequest.new()
+	add_child(http_request2)
+	http_request2.request_completed.connect(self._http_request_completed_list_all)
+	http_request2.request(api_url+"/api/highscores?limit="+str(limit)+"&level="+str(level)+"&timeframe=all", [], HTTPClient.METHOD_GET, "")
+# Called when the HTTP request is completed.
+func _http_request_completed(result, response_code, headers, body):
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	var response = json.get_data()
+	percentBetterThan = response.percentBetterThan
+
+func _http_request_completed_list_day(result, response_code, headers, body):
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	var response = json.get_data()
+	$gameOverScreen.showLeaderBoardDay(response)
+func _http_request_completed_list_all(result, response_code, headers, body):
+	var json = JSON.new()
+	json.parse(body.get_string_from_utf8())
+	var response = json.get_data()
+	$gameOverScreen.showLeaderBoardAll(response)
 	
 func hide_picker():
 	$picker.hide()
@@ -115,7 +205,7 @@ func show_picker():
 
 func add_block(type, color):
 	cardCount += 1
-	print(type, color)
+
 	var block
 	if (type == 'O'):
 		block = O_BLOCK_SCENE
@@ -265,11 +355,8 @@ func spawn_block(skipWait = false):
 		return
 	var falling_block = instantiate_pattern_block()
 	patternIndex += 1
-	# Set a random position within the screen bounds
-	falling_block.position = Vector2(
-		(screen_size.x * 0.5 ), 
-		30  # Start from the top of the screen
-	)
+	# Set to the same position as the forshadow's block
+	falling_block.position = $forshadow.myposition
 	activeBlock = falling_block
 	activeBlock.hit.connect(handleActiveHit)
 	activeBlock.fall.connect(handleFall)
@@ -283,7 +370,7 @@ func spawn_block(skipWait = false):
 func handleFall():
 	if (!isGameRunning):
 		return
-	print('ouch sound here')
+
 	health -= 1
 	$damage.play()
 	update_hearts()
@@ -306,6 +393,9 @@ func update_hearts():
 		$Heart4.texture = HEART_SPRITE
 	if health > 4:
 		$Heart5.texture = HEART_SPRITE
+		
+		
+
 func game_over():
 	for block in blocks:
 		if (str(block) != "<Freed Object>"):
@@ -313,11 +403,27 @@ func game_over():
 			block.linear_velocity = Vector2(randf() * 1500 - 750, randf() * 1500 - 750)
 	$loose.play()
 	activeBlock = null
-	print('game over')
+
 	isGameRunning = false
 	isGameOver = true
-	$gameOverScreen.show()
 	hide_picker()
+	submitHighscore(score, currentLevel)
+	$mobileControls.hide()
+	await get_tree().create_timer(2).timeout
+	getHighscores(currentLevel, 10)
+	# create as midgame ad
+	if (Crazygamessdkwrapper.SDK):
+		adCountdown -= 1
+		Crazygamessdkwrapper.SDK.game.gameplayStop()
+		if (adCountdown <= 0):
+			Crazygamessdkwrapper.SDK.ad.requestAd("midgame", Crazygamessdkwrapper.adCallbacks)
+			$AudioStreamPlayer.stop()
+			await get_tree().create_timer(3).timeout
+			adCountdown = 3
+
+	$gameOverScreen.show()
+	$gameOverScreen.displayScore(score, percentBetterThan)
+
 
 func score_points(amount, body):
 	if (!isGameRunning):
@@ -358,19 +464,24 @@ func _physics_process(delta):
 		return
 	if activeBlock:
 		var velocity = activeBlock.linear_velocity
-		if Input.is_key_pressed(KEY_RIGHT):
+		if Input.is_action_pressed('right'):
 			# move the activeBlock somewhat to the right
 			velocity.x = MOVE_SPEED
-		elif Input.is_key_pressed(KEY_LEFT):
+		elif Input.is_action_pressed('left'):
 			# move to the left
 			velocity.x = -MOVE_SPEED
 		else:
 			velocity.x = 0
-		if Input.is_key_pressed(KEY_DOWN):
+		if Input.is_action_pressed('down'):
 			if activeBlock.linear_velocity.y > DROP_SPEED:
 				velocity.y = DROP_SPEED
 		elif activeBlock.linear_velocity.y > FALL_SPEED:
 			velocity.y = FALL_SPEED
+		if Input.is_action_just_pressed('rotate'):
+			orientation += 1
+			$Rotate.play()
+			if orientation > 3:
+				orientation = 0
 		activeBlock.linear_velocity = velocity
 		
 		# try to orient the block based on the orientation variable
@@ -389,17 +500,13 @@ func rotate_block_to_angle(block: RigidBody2D, target_orientation: float):
 	# Set the angular velocity based on the difference
 	block.angular_velocity = difference * ROTATE_SPEED
 
-func _input(event):
-	if event is InputEventKey and event.pressed and (event.keycode == KEY_R or event.keycode == KEY_UP):
-		orientation += 1
-		$Rotate.play()
-		if orientation > 3:
-			orientation = 0
-
 
 func start_game():
 	if (isGameRunning):
 		return
+	$mobileControls.show()
+	if (Crazygamessdkwrapper.SDK):
+		Crazygamessdkwrapper.SDK.game.gameplayStart()
 	for block in blocks:
 		if (str(block) != "<Freed Object>"):
 			block.queue_free()
@@ -422,8 +529,41 @@ func start_game():
 	
 	spawn_block(true)
 
+func show_selector():
+	$CanvasLayer.show()
+
 func _on_startbutton_start():
 	start_game()
 
 func _on_game_over_screen_play_again():
+	$AudioStreamPlayer.play()
 	start_game()
+
+
+func _on_canvas_layer_select_1() -> void:
+	add_scene(ground1)
+	$CanvasLayer.hide()
+	start_game()
+	currentLevel = 1
+
+func _on_canvas_layer_select_2() -> void:
+	add_scene(ground3)
+	$CanvasLayer.hide()
+	start_game()
+	currentLevel = 2
+
+
+func _on_canvas_layer_select_3() -> void:
+	add_scene(ground2)
+	$CanvasLayer.hide()
+	start_game()
+	currentLevel = 3
+
+
+
+func _on_game_over_screen_go_back() -> void:
+	$AudioStreamPlayer.play()
+	$gameOverScreen.hide()
+	add_scene(ground1)
+	remove_scene(ground1)
+	show_selector()

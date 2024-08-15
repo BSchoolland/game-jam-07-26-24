@@ -17,4 +17,5 @@ position = Vector2(2, -10)
 scale = Vector2(0.249, 0.249)
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

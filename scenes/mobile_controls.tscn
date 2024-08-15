@@ -1,0 +1,61 @@
+[gd_scene load_steps=8 format=3 uid="uid://ha4fdrtwjumu"]
+
+[ext_resource type="Texture2D" uid="uid://cl54usrag3vyj" path="res://assets/pixil-frame-0 (13).png" id="1_a61km"]
+[ext_resource type="Texture2D" uid="uid://bq1vu3k02jihm" path="res://assets/pixil-frame-0 (14).png" id="2_mfxax"]
+[ext_resource type="Texture2D" uid="uid://bxd6elrp2m6w0" path="res://assets/pixil-frame-0 (15).png" id="3_i2acy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lvvke"]
+radius = 100.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kkt11"]
+radius = 100.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_acxys"]
+radius = 100.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iv65r"]
+radius = 100.0
+
+[node name="mobileControls" type="CanvasLayer"]
+
+[node name="Right" type="TouchScreenButton" parent="."]
+position = Vector2(66, 445)
+scale = Vector2(0.622, 0.622)
+texture_normal = ExtResource("1_a61km")
+texture_pressed = ExtResource("1_a61km")
+shape = SubResource("CircleShape2D_lvvke")
+shape_visible = false
+passby_press = true
+action = "left"
+visibility_mode = 1
+
+[node name="rotate" type="TouchScreenButton" parent="."]
+position = Vector2(761, 444)
+scale = Vector2(0.622, 0.622)
+texture_normal = ExtResource("2_mfxax")
+texture_pressed = ExtResource("2_mfxax")
+shape = SubResource("CircleShape2D_kkt11")
+shape_visible = false
+action = "rotate"
+visibility_mode = 1
+
+[node name="down" type="TouchScreenButton" parent="."]
+position = Vector2(948, 443)
+scale = Vector2(0.622, 0.622)
+texture_normal = ExtResource("3_i2acy")
+texture_pressed = ExtResource("3_i2acy")
+shape = SubResource("CircleShape2D_acxys")
+shape_visible = false
+action = "down"
+visibility_mode = 1
+
+[node name="left" type="TouchScreenButton" parent="."]
+position = Vector2(429, 447)
+scale = Vector2(-0.622, 0.622)
+texture_normal = ExtResource("1_a61km")
+texture_pressed = ExtResource("1_a61km")
+shape = SubResource("CircleShape2D_iv65r")
+shape_visible = false
+passby_press = true
+action = "right"
+visibility_mode = 1
