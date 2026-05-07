@@ -3,6 +3,9 @@ extends CanvasLayer
 signal select1
 signal select2
 signal select3
+signal selectCHAOSMODE
+
+signal mute
 
 
 # Called when the node enters the scene tree for the first time.
@@ -25,6 +28,9 @@ func _on_select_2_pressed() -> void:
 
 func _on_select_3_pressed() -> void:
 	select3.emit()
+	
+func _on_select_4_pressed() -> void:
+	selectCHAOSMODE.emit()
 
 
 func _on_exit_pressed() -> void:
@@ -40,3 +46,7 @@ func _on_help_pressed() -> void:
 	$select1.hide()
 	$select2.hide()
 	$select3.hide()
+
+
+func _on_mute_pressed() -> void:
+	mute.emit()

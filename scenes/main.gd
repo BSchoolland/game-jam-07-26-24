@@ -14,12 +14,19 @@ const MOVE_SPEED : int = 150
 
 var isRightHeld : bool
 var isLeftHeld : bool
+var isMuted : bool
 var screen_size
 var adCountdown
+var chaosCounter 
+var stuckInFastMode : bool
+var hugeBlocks : bool
 
 var ground1
 var ground2
 var ground3
+var ground4
+
+var CHAOS_MODE : bool
 
 var currentLevel
 
@@ -90,14 +97,21 @@ func add_scene(scene):
 	remove_scene(ground1)
 	remove_scene(ground2)
 	remove_scene(ground3)
+	remove_scene(ground4)
 	add_child(scene)
 
 func _ready():
+	stuckInFastMode = false
+	hugeBlocks = false
+	chaosCounter = 0
+	CHAOS_MODE = false
+	isMuted = false
 	adCountdown = 3
 	$mobileControls.hide()
 	ground1 = $Ground
 	ground2 = $Ground2
 	ground3 = $Ground3
+	ground4 = $Ground4
 	add_scene(ground1)
 	remove_scene(ground1)
 	currentLevel = 0
@@ -127,6 +141,7 @@ func submitHighscore(score, level):
 	var headers = ["Content-Type: application/json"]
 	if (score == 0):
 		percentBetterThan = 0
+		$gameOverScreen/signInPls.hide()
 		return
 
 	var initials = Crazygamessdkwrapper.username
@@ -193,7 +208,10 @@ func show_picker():
 	$picker/Card.pick.connect(add_block)
 	$picker/Card2.pick.connect(add_block)
 	$picker/Card3.pick.connect(add_block)
+
 	await get_tree().create_timer(0.5).timeout
+
+
 	update_forshadow()
 	#$picker.show()
 	#$picker/Card.show()
@@ -296,6 +314,8 @@ func update_forshadow(skipWait = false):
 	$forshadow5.load_block(block)
 
 func place_phase_end(skipWait = false):
+	hugeBlocks = false
+	stuckInFastMode = false
 	await rocket_phase(skipWait)
 	patternIndex = 0
 	update_forshadow(true)
@@ -319,6 +339,7 @@ func spawn_random_rocket():
 			y_array.append(block.position.y)
 	var random_index = randi() % y_array.size()
 	var start_y = y_array[random_index]
+	print(start_y)
 	
 	new_rocket.position = Vector2(start_x, start_y)
 	
@@ -329,21 +350,61 @@ func spawn_random_rocket():
 	# Add the rocket to the game (assuming the script is attached to the main scene node)
 	add_child(new_rocket)
 
+const Disasters : Array = [
+	'Rocket',
+	'Earthquake',
+	'Fast Blocks',
+	'Huge Block',
+	'Double Trouble',
+]
 
-func rocket_phase(skipWait = false):
-	#for block in blocks:
-		#if (str(block) != "<Freed Object>"):
-			#block.mount_defense()
-	#
-	#for n in range(rocketCount):
-		#spawn_random_rocket()
-		#await get_tree().create_timer(0.5).timeout
-	#if (!skipWait):
-		##await get_tree().create_timer(4).timeout
-	#for block in blocks:
-		#if (str(block) != "<Freed Object>"):
-			#block.stop_defense()
-	rocketCount += 0
+func rocket_phase(skipWait = false, noDouble = false):
+	if (CHAOS_MODE):
+		chaosCounter += 1
+		if (chaosCounter >= 2):
+			var random_disaster_index =  randi() % Disasters.size()
+			var disaster = Disasters[random_disaster_index]
+			if (disaster == "Double Trouble" and noDouble):
+				disaster = "Rocket"
+			elif (disaster == "Fast Blocks" and stuckInFastMode):
+				disaster = "Rocket"
+			elif (disaster == "Huge Block" and hugeBlocks):
+				disaster = "Rocket"
+			$DisasterName.text = disaster
+			$DisasterName.show()
+			if (disaster == "Earthquake"):
+				$Ground4.earthquake()
+	
+			var elapsed_time = 0.0
+			var original_position = $DisasterName.position
+			const intensity = 3
+			while elapsed_time < 2:
+				var shake_x = randf_range(-intensity, intensity)
+				var shake_y = randf_range(-intensity, intensity)
+				$DisasterName.position = original_position + Vector2(shake_x, shake_y)
+				elapsed_time += 0.05
+				await get_tree().create_timer(0.05).timeout
+			$DisasterName.position = original_position
+			chaosCounter = 0
+			$DisasterName.hide()
+
+			if (disaster == "Earthquake"):
+				await get_tree().create_timer(4).timeout
+			elif (disaster == "Fast Blocks"):
+				stuckInFastMode = true
+			elif (disaster == "Huge Block"):
+				hugeBlocks = true
+			elif (disaster == "Double Trouble"):
+				await rocket_phase(false, true)
+				await rocket_phase(false, true)
+				await rocket_phase(false, true)
+				await rocket_phase(false, true)
+
+			else:
+				spawn_random_rocket()
+				await get_tree().create_timer(3).timeout
+
+
 
 func spawn_block(skipWait = false):
 	if (!isGameRunning):
@@ -358,14 +419,19 @@ func spawn_block(skipWait = false):
 	# Set to the same position as the forshadow's block
 	falling_block.position = $forshadow.myposition
 	activeBlock = falling_block
+
 	activeBlock.hit.connect(handleActiveHit)
 	activeBlock.fall.connect(handleFall)
 	activeBlock.score.connect(score_points)
+	if (hugeBlocks):
+		activeBlock.makebig()
+		hugeBlocks = false
 	blocks.append(activeBlock)
 	# update foreshadow
 	update_forshadow()
 	# Add the instance to the scene tree
 	call_deferred("add_child", falling_block)
+
 	
 func handleFall():
 	if (!isGameRunning):
@@ -413,14 +479,10 @@ func game_over():
 	getHighscores(currentLevel, 10)
 	# create as midgame ad
 	if (Crazygamessdkwrapper.SDK):
-		adCountdown -= 1
 		Crazygamessdkwrapper.SDK.game.gameplayStop()
-		if (adCountdown <= 0):
-			Crazygamessdkwrapper.SDK.ad.requestAd("midgame", Crazygamessdkwrapper.adCallbacks)
-			$AudioStreamPlayer.stop()
-			await get_tree().create_timer(3).timeout
-			adCountdown = 3
-
+		Crazygamessdkwrapper.SDK.ad.requestAd("midgame", Crazygamessdkwrapper.adCallbacks)
+		$AudioStreamPlayer.stop()
+		await get_tree().create_timer(3).timeout
 	$gameOverScreen.show()
 	$gameOverScreen.displayScore(score, percentBetterThan)
 
@@ -472,7 +534,7 @@ func _physics_process(delta):
 			velocity.x = -MOVE_SPEED
 		else:
 			velocity.x = 0
-		if Input.is_action_pressed('down'):
+		if (Input.is_action_pressed('down') or stuckInFastMode):
 			if activeBlock.linear_velocity.y > DROP_SPEED:
 				velocity.y = DROP_SPEED
 		elif activeBlock.linear_velocity.y > FALL_SPEED:
@@ -504,6 +566,8 @@ func rotate_block_to_angle(block: RigidBody2D, target_orientation: float):
 func start_game():
 	if (isGameRunning):
 		return
+	stuckInFastMode = false
+	hugeBlocks = false
 	$mobileControls.show()
 	if (Crazygamessdkwrapper.SDK):
 		Crazygamessdkwrapper.SDK.game.gameplayStart()
@@ -536,17 +600,20 @@ func _on_startbutton_start():
 	start_game()
 
 func _on_game_over_screen_play_again():
-	$AudioStreamPlayer.play()
+	if (!isMuted):
+		$AudioStreamPlayer.play()
 	start_game()
 
 
 func _on_canvas_layer_select_1() -> void:
+	CHAOS_MODE = false
 	add_scene(ground1)
 	$CanvasLayer.hide()
 	start_game()
 	currentLevel = 1
 
 func _on_canvas_layer_select_2() -> void:
+	CHAOS_MODE = false
 	add_scene(ground3)
 	$CanvasLayer.hide()
 	start_game()
@@ -554,16 +621,36 @@ func _on_canvas_layer_select_2() -> void:
 
 
 func _on_canvas_layer_select_3() -> void:
+	CHAOS_MODE = false
 	add_scene(ground2)
 	$CanvasLayer.hide()
 	start_game()
 	currentLevel = 3
+	
+func _on_canvas_layer_select_chaosmode() -> void:
+	CHAOS_MODE = true
+	chaosCounter = 0
+	add_scene(ground4)
+	$CanvasLayer.hide()
+	start_game()
+	currentLevel = 4
 
 
 
 func _on_game_over_screen_go_back() -> void:
-	$AudioStreamPlayer.play()
+	if (!isMuted):
+		$AudioStreamPlayer.play()
 	$gameOverScreen.hide()
 	add_scene(ground1)
 	remove_scene(ground1)
 	show_selector()
+
+
+func _on_canvas_layer_mute() -> void:
+	isMuted  = !isMuted
+	if (!isMuted):
+		$AudioStreamPlayer.play()
+		$CanvasLayer/SoundOff.hide()
+	else:
+		$AudioStreamPlayer.stop()
+		$CanvasLayer/SoundOff.show()

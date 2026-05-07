@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjj33imuavbxb"]
+
+[ext_resource type="Script" path="res://scenes/ground_4.gd" id="1_xns86"]
+[ext_resource type="Texture2D" uid="uid://bs3mc7m8clhw3" path="res://assets/ground1.png" id="2_2d2bw"]
+[ext_resource type="AudioStream" uid="uid://dq73jjtpx42p4" path="res://sounds/052256_cracking-earthquake-cracking-soil-cracking-stone-86770.mp3" id="3_oth3u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i15x2"]
+size = Vector2(257, 105)
+
+[node name="Ground4" type="StaticBody2D"]
+script = ExtResource("1_xns86")
+
+[node name="Ground3" type="Sprite2D" parent="."]
+position = Vector2(609, 466)
+texture = ExtResource("2_2d2bw")
+
+[node name="Ground1" type="Sprite2D" parent="."]
+position = Vector2(517, 467)
+texture = ExtResource("2_2d2bw")
+
+[node name="Ground2" type="Sprite2D" parent="."]
+position = Vector2(567, 465)
+texture = ExtResource("2_2d2bw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(581.5, 633)
+shape = SubResource("RectangleShape2D_i15x2")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_oth3u")
+volume_db = 1.891

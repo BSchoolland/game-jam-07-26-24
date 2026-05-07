@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://82skf4qkta1s"]
+[gd_scene load_steps=20 format=3 uid="uid://82skf4qkta1s"]
 
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_xqvwo"]
 [ext_resource type="Texture2D" uid="uid://b888lae3bsgkk" path="res://assets/background.png" id="2_bnrmq"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://cb1eyhl2n7qb6" path="res://scenes/ground_3.tscn" id="15_gv8vb"]
 [ext_resource type="PackedScene" uid="uid://ha4fdrtwjumu" path="res://scenes/mobile_controls.tscn" id="18_580d1"]
 [ext_resource type="PackedScene" uid="uid://78rxhbbcljhm" path="res://scenes/background_loading_dark.tscn" id="19_4xe8t"]
+[ext_resource type="PackedScene" uid="uid://cjj33imuavbxb" path="res://scenes/ground_4.tscn" id="19_uhyl3"]
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_xqvwo")
@@ -132,9 +133,25 @@ mix_target = 1
 
 [node name="mobileControls" parent="." instance=ExtResource("18_580d1")]
 
+[node name="Ground4" parent="." instance=ExtResource("19_uhyl3")]
+
+[node name="DisasterName" type="Label" parent="."]
+visible = false
+offset_left = 384.0
+offset_top = 231.0
+offset_right = 756.0
+offset_bottom = 366.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("5_el7eu")
+theme_override_font_sizes/font_size = 64
+text = "Huge Blocks"
+horizontal_alignment = 1
+
 [connection signal="start" from="start-button" to="." method="_on_startbutton_start"]
 [connection signal="goBack" from="gameOverScreen" to="." method="_on_game_over_screen_go_back"]
 [connection signal="playAgain" from="gameOverScreen" to="." method="_on_game_over_screen_play_again"]
+[connection signal="mute" from="CanvasLayer" to="." method="_on_canvas_layer_mute"]
 [connection signal="select1" from="CanvasLayer" to="." method="_on_canvas_layer_select_1"]
 [connection signal="select2" from="CanvasLayer" to="." method="_on_canvas_layer_select_2"]
 [connection signal="select3" from="CanvasLayer" to="." method="_on_canvas_layer_select_3"]
+[connection signal="selectCHAOSMODE" from="CanvasLayer" to="." method="_on_canvas_layer_select_chaosmode"]

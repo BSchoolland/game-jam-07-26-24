@@ -102,10 +102,7 @@ offset_bottom = 523.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_fdlwr")
 theme_override_font_sizes/font_size = 24
-text = "There is a problem with
-the server and scores
-cannot be loaded.  
-Sorry!"
+text = "Scores are loading..."
 horizontal_alignment = 1
 
 [node name="Daily" type="Label" parent="."]
@@ -116,10 +113,7 @@ offset_bottom = 529.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_fonts/font = ExtResource("3_fdlwr")
 theme_override_font_sizes/font_size = 24
-text = "There is a problem with
-the server and scores
-cannot be loaded.  
-Sorry!"
+text = "Scores are loading..."
 horizontal_alignment = 1
 
 [node name="Daily2" type="Label" parent="."]

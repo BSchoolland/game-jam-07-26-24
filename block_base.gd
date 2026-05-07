@@ -10,6 +10,7 @@ signal fall
 signal score
 signal stop_check_completed
 var sprite_textures = []
+var scaleMultiplier
 
 func get_collision_shape():
 	# this will be overwritten in the derived class
@@ -38,6 +39,7 @@ func set_color(new_color):
 			
 
 func standard_ready(collision_shape):
+	scaleMultiplier = 1
 	hasFallen = false
 	Connections = [self]
 	hasHit = false
@@ -169,3 +171,20 @@ func mount_defense():
 	
 func stop_defense():
 	pass
+	
+func makebig():
+	scaleMultiplier = 2
+	var collision_shape = get_collision_shape()
+	collision_shape.scale.x *= 1.5
+	collision_shape.scale.y *= 1.5
+	mass *= 4
+	get_node("sprite").scale *= 1.6
+	
+	
+	
+func damage(_x):
+	set_collision_layer_value(1, false)
+	set_collision_mask_value(1, false)
+	linear_velocity = Vector2(0, -100)
+	await get_tree().create_timer(0.5).timeout
+	queue_free()

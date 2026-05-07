@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://78rxhbbcljhm"]
+[gd_scene load_steps=13 format=3 uid="uid://78rxhbbcljhm"]
 
 [ext_resource type="Script" path="res://scenes/background_loading_dark.gd" id="1_48qkh"]
 [ext_resource type="Texture2D" uid="uid://bmitxcn5qk55v" path="res://assets/pixil-frame-0 (9).png" id="1_35832"]
@@ -8,29 +8,52 @@
 [ext_resource type="Texture2D" uid="uid://60r2grm38km0" path="res://assets/level3.png" id="4_b26p0"]
 [ext_resource type="Texture2D" uid="uid://bss0fnj1nb0m6" path="res://assets/pixil-frame-0 (10).png" id="5_mocbw"]
 [ext_resource type="FontFile" uid="uid://bls4re53ydow7" path="res://assets/Minecraft.ttf" id="8_b31a0"]
+[ext_resource type="Texture2D" uid="uid://bkr6onbsaj7uy" path="res://assets/pixil-frame-0.png" id="9_tbckn"]
+[ext_resource type="Texture2D" uid="uid://bpjl1yq6hilxg" path="res://assets/pixil-frame-0 (1).png" id="10_rkhde"]
+[ext_resource type="Texture2D" uid="uid://dwm1s540atbfv" path="res://assets/pixil-frame-0 (2).png" id="11_m7wq6"]
+[ext_resource type="Texture2D" uid="uid://ba5msu8esgsjx" path="res://assets/rocket/pixil-frame-0 (4).png" id="12_i2x7o"]
 
 [node name="CanvasLayer" type="CanvasLayer"]
 script = ExtResource("1_48qkh")
 
+[node name="help" type="Button" parent="."]
+offset_left = 1044.0
+offset_top = 4.0
+offset_right = 1133.0
+offset_bottom = 92.0
+
+[node name="Mute" type="Button" parent="."]
+offset_left = 936.0
+offset_top = 5.0
+offset_right = 1021.0
+offset_bottom = 91.0
+
 [node name="select1" type="Button" parent="."]
 offset_left = 67.0
-offset_top = 195.0
+offset_top = 134.0
 offset_right = 364.0
-offset_bottom = 473.0
+offset_bottom = 412.0
 mouse_default_cursor_shape = 2
 
 [node name="select2" type="Button" parent="."]
 offset_left = 427.0
-offset_top = 193.0
+offset_top = 132.0
 offset_right = 724.0
-offset_bottom = 471.0
+offset_bottom = 410.0
 mouse_default_cursor_shape = 2
 
 [node name="select3" type="Button" parent="."]
 offset_left = 783.0
-offset_top = 186.0
+offset_top = 125.0
 offset_right = 1080.0
-offset_bottom = 464.0
+offset_bottom = 403.0
+mouse_default_cursor_shape = 2
+
+[node name="select4" type="Button" parent="."]
+offset_left = 75.0
+offset_top = 439.0
+offset_right = 1070.0
+offset_bottom = 645.0
 mouse_default_cursor_shape = 2
 
 [node name="Background" type="Sprite2D" parent="."]
@@ -46,29 +69,29 @@ scale = Vector2(2.368, 1.378)
 texture = ExtResource("1_35832")
 
 [node name="Level1" type="Sprite2D" parent="."]
-position = Vector2(205, 256)
+position = Vector2(205, 195)
 texture = ExtResource("2_2fnba")
 
 [node name="Level2" type="Sprite2D" parent="."]
-position = Vector2(561, 254)
+position = Vector2(561, 193)
 texture = ExtResource("3_257oo")
 
 [node name="Level3" type="Sprite2D" parent="."]
-position = Vector2(919, 246)
+position = Vector2(919, 185)
 texture = ExtResource("4_b26p0")
 
 [node name="Pixil-frame-0(10)" type="Sprite2D" parent="."]
-position = Vector2(219, 368)
+position = Vector2(219, 307)
 scale = Vector2(0.294, 0.294)
 texture = ExtResource("5_mocbw")
 
 [node name="Pixil-frame-0(10)2" type="Sprite2D" parent="."]
-position = Vector2(584, 359)
+position = Vector2(584, 298)
 scale = Vector2(0.294, 0.294)
 texture = ExtResource("5_mocbw")
 
 [node name="Pixil-frame-0(10)3" type="Sprite2D" parent="."]
-position = Vector2(951, 347)
+position = Vector2(951, 286)
 scale = Vector2(0.294, 0.294)
 texture = ExtResource("5_mocbw")
 
@@ -87,28 +110,44 @@ theme_override_font_sizes/font_size = 64
 text = "Sketchy Towers"
 horizontal_alignment = 1
 
-[node name="Score3" type="Label" parent="."]
-offset_left = 1043.0
-offset_top = 27.0
-offset_right = 1132.0
-offset_bottom = 92.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("8_b31a0")
-theme_override_font_sizes/font_size = 64
-text = "?"
-horizontal_alignment = 1
+[node name="Pixil-frame-0(2)" type="Sprite2D" parent="."]
+position = Vector2(1088, 43)
+scale = Vector2(0.374, 0.374)
+texture = ExtResource("11_m7wq6")
 
-[node name="help" type="Button" parent="."]
-offset_left = 1044.0
-offset_top = 11.0
-offset_right = 1127.0
-offset_bottom = 92.0
+[node name="SoundOn" type="Sprite2D" parent="."]
+position = Vector2(977, 42)
+scale = Vector2(0.411, 0.411)
+texture = ExtResource("9_tbckn")
+
+[node name="SoundOff" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(977, 42)
+scale = Vector2(0.407, 0.407)
+texture = ExtResource("10_rkhde")
+
+[node name="Pixil-frame-0(4)" type="Sprite2D" parent="."]
+position = Vector2(547, 483)
+scale = Vector2(2.36, 2.36)
+texture = ExtResource("12_i2x7o")
+
+[node name="Pixil-frame-0(10)4" type="Sprite2D" parent="."]
+position = Vector2(550, 551)
+scale = Vector2(0.294, 0.294)
+texture = ExtResource("5_mocbw")
 
 [node name="Help" type="Sprite2D" parent="."]
 visible = false
 position = Vector2(576.5, 323.5)
 scale = Vector2(1.19479, 1.19815)
 texture = ExtResource("2_2wf45")
+
+[node name="Exit" type="Button" parent="Help"]
+modulate = Color(1, 1, 1, 0)
+offset_left = -492.0
+offset_top = -282.0
+offset_right = 497.0
+offset_bottom = 283.0
 
 [node name="Score14" type="Label" parent="Help"]
 offset_left = -479.163
@@ -164,12 +203,6 @@ theme_override_fonts/font = ExtResource("8_b31a0")
 theme_override_font_sizes/font_size = 48
 text = "How to play:"
 horizontal_alignment = 1
-
-[node name="Exit" type="Button" parent="Help"]
-offset_left = 390.0
-offset_top = -257.0
-offset_right = 454.0
-offset_bottom = -196.0
 
 [node name="Score3" type="Label" parent="Help"]
 offset_left = 380.401
@@ -237,8 +270,21 @@ theme_override_font_sizes/font_size = 24
 text = "Once 5 blocks fall off it's game over!"
 horizontal_alignment = 1
 
+[node name="Score15" type="Label" parent="Help"]
+offset_left = -492.555
+offset_top = 219.922
+offset_right = 464.445
+offset_bottom = 284.922
+theme_override_colors/font_color = Color(0.462745, 0, 0, 1)
+theme_override_fonts/font = ExtResource("8_b31a0")
+theme_override_font_sizes/font_size = 32
+text = "Click to Exit"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="Mute" to="." method="_on_mute_pressed"]
 [connection signal="pressed" from="select1" to="." method="_on_select_1_pressed"]
 [connection signal="pressed" from="select2" to="." method="_on_select_2_pressed"]
 [connection signal="pressed" from="select3" to="." method="_on_select_3_pressed"]
-[connection signal="pressed" from="help" to="." method="_on_help_pressed"]
+[connection signal="pressed" from="select4" to="." method="_on_select_4_pressed"]
 [connection signal="pressed" from="Help/Exit" to="." method="_on_exit_pressed"]

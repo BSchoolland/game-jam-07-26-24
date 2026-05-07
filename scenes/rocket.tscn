@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cp4jmqfd64ju8"]
+[gd_scene load_steps=14 format=3 uid="uid://cp4jmqfd64ju8"]
 
 [ext_resource type="Texture2D" uid="uid://def4xyye51etx" path="res://assets/rocket/rocket2.png" id="1_0w7r0"]
 [ext_resource type="Script" path="res://scenes/rocket.gd" id="1_gm22i"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://b41032e8vk4qu" path="res://assets/explosion/pixil-frame-0 (28).png" id="7_hktkc"]
 [ext_resource type="Texture2D" uid="uid://codit8jnlbtwo" path="res://assets/explosion/pixil-frame-0 (29).png" id="8_0si7o"]
 [ext_resource type="Texture2D" uid="uid://ceotkt6oqmpkj" path="res://assets/explosion/pixil-frame-0 (30).png" id="9_14ayl"]
+[ext_resource type="AudioStream" uid="uid://ce2nr2t3oigkc" path="res://sounds/rocketflyby-32158.mp3" id="10_oix16"]
+[ext_resource type="AudioStream" uid="uid://bhp7poy3mstuu" path="res://sounds/missile-explosion-168600.mp3" id="11_ms7bg"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5tjr8"]
 animations = [{
@@ -83,5 +85,11 @@ sprite_frames = SubResource("SpriteFrames_m3ulb")
 frame = 6
 frame_progress = 1.0
 speed_scale = 2.0
+
+[node name="Fly" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_oix16")
+
+[node name="Boom" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_ms7bg")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

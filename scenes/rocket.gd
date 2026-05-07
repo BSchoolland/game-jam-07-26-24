@@ -3,8 +3,7 @@ class_name Rocket
 
 var hasHit : bool
 var health
-const power : int = 1
-
+const color : String = 'none'
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hasHit = false
@@ -12,6 +11,11 @@ func _ready():
 	contact_monitor = true
 	$AnimatedSprite2D.play("Flying")
 	health = 1
+	$Fly.play()
+	await get_tree().create_timer(6).timeout
+	explode()
+
+
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -24,14 +28,16 @@ func _on_body_entered(body):
 	# Check if the body is of the same custom class type to prevent self-collision
 	if body is Rocket:
 		return
-	body.damage(power)
+	body.damage(1)
 	explode()
 
 func explode():
+	$Fly.stop()
+	$Boom.play(1)
 	hasHit = true
 	$AnimatedSprite2D.hide()
 	$explosion.play()
-	await get_tree().create_timer(0.5).timeout
+	await get_tree().create_timer(1).timeout
 	queue_free()
 
 func damage(amount):
